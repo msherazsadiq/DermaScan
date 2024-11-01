@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/HalfWhite"
+    tools:context=".loginsignup.DoctorScheduleActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/background_button_white"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.010"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_arrow_vector" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/konkhmer_sleokchher"
+        android:gravity="center_horizontal"
+        android:text="Doctor Schedule"
+        android:textColor="@color/DarkBlue"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.324"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:gravity="center_vertical|center"
+                android:background="@drawable/background_button_dark_blue_border"
+                android:layout_marginTop="30dp">
+
+
+                <TextView
+                    android:id="@+id/mondayStartTimeButton"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:text="--:--"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:text="-"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="30sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/mondayEndTimeButton"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="--:--"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monday"
+                android:textColor="@color/DarkBlue"
+                android:textSize="20sp"
+                android:fontFamily="@font/alike"
+                android:background="@color/HalfWhite"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:padding="5dp"/>
+
+        </FrameLayout>
+
+
+
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:gravity="center_vertical|center"
+                android:background="@drawable/background_button_dark_blue_border"
+                android:layout_marginTop="30dp">
+
+
+                <TextView
+                    android:id="@+id/tuesdayStartTimeButton"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:text="--:--"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:text="-"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="30sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tuesdayEndTimeButton"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="--:--"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuesday"
+                android:textColor="@color/DarkBlue"
+                android:textSize="20sp"
+                android:fontFamily="@font/alike"
+                android:background="@color/HalfWhite"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:padding="5dp"/>
+
+        </FrameLayout>
+
+
+
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:gravity="center_vertical|center"
+                android:background="@drawable/background_button_dark_blue_border"
+                android:layout_marginTop="30dp">
+
+
+                <TextView
+                    android:id="@+id/wednesdayStartTimeButton"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:text="--:--"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:text="-"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="30sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/wednesdayEndTimeButton"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="--:--"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wednesday"
+                android:textColor="@color/DarkBlue"
+                android:textSize="20sp"
+                android:fontFamily="@font/alike"
+                android:background="@color/HalfWhite"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:padding="5dp"/>
+
+        </FrameLayout>
+        
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

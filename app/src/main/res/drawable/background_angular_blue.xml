@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- drawable/slider_2.xml -->
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="412dp"
+    android:height="917dp"
+    android:viewportWidth="412"
+    android:viewportHeight="917"
+    >
+    <group>
+        <clip-path
+            android:pathData="M0 0H412V917H0V0Z"
+            />
+        <group
+            android:translateX="-1.521"
+            android:translateY="1.771"
+            android:pivotX="206"
+            android:pivotY="458.5"
+            android:scaleX="5.021"
+            android:scaleY="3.691"
+            android:rotation="-50.06"
+            >
+            <path
+                android:pathData="M0 0V917H412V0"
+                >
+                <aapt:attr name="android:fillColor">
+                    <gradient
+                        android:type="sweep"
+                        android:centerX="206"
+                        android:centerY="458.5"
+                        >
+                        <item
+                            android:color="@color/DarkBlue80"
+                            android:offset="0.026"
+                            />
+                        <item
+                            android:color="@color/DarkBlue"
+                            android:offset="0.942"
+                            />
+                        <item
+                            android:color="@color/DarkBlue80"
+                            android:offset="0.997"
+                            />
+                    </gradient>
+                </aapt:attr>
+            </path>
+        </group>
+    </group>
+</vector>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".introslider.FirstSliderFragment">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/slider_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToOutline="true"
+        android:background="@drawable/background_radial_blue"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginBottom="100dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alike"
+            android:text="Welcome to"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/dermascan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/konkhmer_sleokchher"
+            android:text="DermaScan"
+            android:contentDescription="App Name"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alike"
+            android:text="AI Powered Skin Disease Detector"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</FrameLayout>

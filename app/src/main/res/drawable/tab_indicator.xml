@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="0dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="48dp"> <!-- Adjust the top value to position the line at the bottom -->
+        <shape android:shape="rectangle">
+            <solid android:color="@color/DarkBlue" />
+            <size android:height="2dp" /> <!-- Thickness of the line -->
+        </shape>
+    </item>
+</layer-list>

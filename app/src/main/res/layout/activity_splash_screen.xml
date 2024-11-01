@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/HalfWhite"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".SplashScreenActivity">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/logo_dark" />
+
+
+
+    <TextView
+        android:id="@+id/dermascan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/konkhmer_sleokchher"
+        android:text="DermaScan"
+        android:contentDescription="App Name"
+        android:textColor="@color/DarkBlue"
+        android:textSize="40sp" />
+</LinearLayout>

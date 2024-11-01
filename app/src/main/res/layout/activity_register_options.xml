@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_radial_blue"
+    tools:context=".loginsignup.RegisterOptionsActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_light" />
+
+        <TextView
+            android:id="@+id/dermascan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/konkhmer_sleokchher"
+            android:text="DermaScan"
+            android:contentDescription="App Name"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alike"
+            android:text="Welcome Back"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:layout_marginTop="80dp"/>
+
+        <TextView
+            android:id="@+id/signinButton"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:background="@drawable/background_button_white_border_rounded"
+            android:text="Sign in"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"/>
+
+
+        <TextView
+            android:id="@+id/signupButton"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:background="@drawable/background_button_white"
+            android:text="Sign up"
+            android:textColor="@color/DarkBlue"
+            android:textSize="16sp"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <TextView
+            android:id="@+id/signupDoctorButton"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:background="@drawable/background_button_white"
+            android:text="Sign up as Doctor"
+            android:textColor="@color/DarkBlue"
+            android:textSize="16sp"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

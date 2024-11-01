@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">DermaScan</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="what_is_dermascan">
+        DermaScan is a mobile app that uses AI-powered
+        image analysis to help detect and monitor skin conditions
+        in real-time. Simply upload a photo, and our AI quickly
+        provides diagnostics and personalized skincare recommendations,
+        empowering you to manage your skin health with early detection
+        and expert advice.
+    </string>
+
+    <string name="terms_of_use">
+        DermaScan provides AI-based skin analysis, not a replacement
+        for medical advice. Consult a doctor for professional evaluation.
+    </string>
+
+    <string name="data_protection">
+        We prioritize your privacy. Your data is secure, encrypted, and never
+        shared without consent.
+    </string>
+
+    <string name="reset_password">
+        Enter your email address below, and we will send you a link to reset your
+        password. Please check your inbox (and spam/junk folder, if necessary) for the
+        reset email. Follow the instructions in the email to securely set a new password.
+        If you don\'t receive the email within a few minutes, try again or contact our
+        support team for further assistance.
+    </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

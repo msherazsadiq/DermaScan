@@ -22,5 +22,4 @@ class Doctor(
     var Approved: Boolean = false,
     var CreatedAt: String = "",
 
-    var huzaifa: String = ""
 ) : Serializable

@@ -1,10 +1,13 @@
 package com.sherazsadiq.dermascan.loginsignup
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
+import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -63,10 +66,10 @@ class SignInActivity : AppCompatActivity() {
                     val intent = Intent(this, ApproveDoctorActivity::class.java)
                     startActivity(intent)
                     finish()
-                    return@setOnClickListener
                 }
-
-                signInUser(emailTxt, passwordTxt)
+                else {
+                    signInUser(emailTxt, passwordTxt)
+                }
             }
         }
 
@@ -98,15 +101,61 @@ class SignInActivity : AppCompatActivity() {
 
                 if (task.isSuccessful) {
                     progressDialog.dismiss()
-                    // Sign in success
-                    Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this,MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+
+                    val currentUser = auth.currentUser
+                    if (currentUser != null) {
+                        val database = FirebaseDatabase.getInstance().reference
+                        val userRef = database.child("Users").child("Doctors").child(currentUser.uid)
+
+                        userRef.get().addOnSuccessListener { dataSnapshot ->
+                            val userType = dataSnapshot.child("UserInfo/userType").getValue(String::class.java)
+                            if(userType == "Doctor") {
+                                val approved = dataSnapshot.child("UserInfo/approved")
+                                    .getValue(Boolean::class.java) ?: false
+
+                                if (!approved) {
+                                    val dialogView = LayoutInflater.from(this)
+                                        .inflate(R.layout.dialog_custom_not_approved_doctor, null)
+
+                                    val OkButton = dialogView.findViewById<TextView>(R.id.okButton)
+
+                                    val builder = AlertDialog.Builder(this)
+                                    builder.setView(dialogView)
+
+                                    val dialog = builder.create()
+
+                                    OkButton.setOnClickListener {
+                                        dialog.dismiss()
+                                    }
+
+                                    dialog.show()
+                                    return@addOnSuccessListener
+                                }
+                                else {
+                                    // Sign in success
+                                    Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
+                                    val intent = Intent(this, MainActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                            }
+                            else {
+                                // Sign in success
+                                Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }
+
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Failed to fetch user data", Toast.LENGTH_SHORT).show()
+                            Log.e("SignInActivity", "Error fetching user data", it)
+                        }
+                    }
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                    Thread.sleep(2000)
+                    Log.e("SignInActivity", "Authentication failed", task.exception)
                 }
             }
     }

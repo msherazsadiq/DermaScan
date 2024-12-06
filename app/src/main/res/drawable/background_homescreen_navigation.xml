@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="312dp"
+    android:height="104dp"
+    android:viewportWidth="312"
+    android:viewportHeight="104">
+
+  <!-- Shadow Path (approximate Figma shadow) -->
+  <path
+      android:pathData="M51,90L261,90A45,45 0,0 1,306 45L306,49A45,45 0,0 1,261,95L51,95A45,45 0,0 1,6,49L6,45A45,45 0,0 1,51,90z"
+      android:fillColor="#BBBBBB"
+      android:alpha="0.27"
+      android:translationY="8dp"/>
+
+  <!-- Main Path -->
+  <path
+      android:pathData="M51,0L261,0A45,45 0,0 1,306 45L306,45A45,45 0,0 1,261 90L51,90A45,45 0,0 1,6 45L6,45A45,45 0,0 1,51, 0z"
+      android:fillColor="#ffffff"/>
+
+</vector>

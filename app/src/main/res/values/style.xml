@@ -11,4 +11,14 @@
         <item name="android:textColor">@color/DarkBlue</item>
         <item name="android:fontFamily">@font/alike</item>
     </style>
+
+
+    <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:datePickerStyle">@style/CustomDatePicker</item>
+    </style>
+
+    <style name="CustomDatePicker" parent="android:Widget.Material.DatePicker">
+        <item name="android:textColor">@color/DarkBlue</item>
+        <item name="android:background">@color/white</item>
+    </style>
 </resources>

@@ -1,10 +1,9 @@
-package com.sherazsadiq.dermascan.loginsignup
+package com.sherazsadiq.dermascan.manageprofile
 
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.activity.enableEdgeToEdge

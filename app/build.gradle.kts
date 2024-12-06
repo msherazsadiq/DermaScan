@@ -2,12 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
-
 }
 
 android {
     namespace = "com.sherazsadiq.dermascan"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.sherazsadiq.dermascan"
@@ -38,10 +37,11 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -54,11 +54,14 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
 
     implementation("androidx.webkit:webkit:1.12.1")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+
+
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation(libs.glide)
 }
 

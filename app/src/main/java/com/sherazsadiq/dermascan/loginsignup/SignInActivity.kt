@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.sherazsadiq.dermascan.HomeActivity
 import com.sherazsadiq.dermascan.MainActivity
 import com.sherazsadiq.dermascan.R
 import com.sherazsadiq.dermascan.admin.ApproveDoctorActivity
@@ -134,7 +135,7 @@ class SignInActivity : AppCompatActivity() {
                                 else {
                                     // Sign in success
                                     Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
-                                    val intent = Intent(this, MainActivity::class.java)
+                                    val intent = Intent(this, HomeActivity::class.java)
                                     startActivity(intent)
                                     finish()
                                 }
@@ -142,7 +143,7 @@ class SignInActivity : AppCompatActivity() {
                             else {
                                 // Sign in success
                                 Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(this, MainActivity::class.java)
+                                val intent = Intent(this, HomeActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }

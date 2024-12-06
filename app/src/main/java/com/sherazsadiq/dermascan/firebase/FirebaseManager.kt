@@ -3,8 +3,10 @@ package com.sherazsadiq.dermascan.firebase
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.sherazsadiq.dermascan.admin.DoctorDetailsActivity
@@ -13,6 +15,7 @@ class FirebaseManager {
 
     private val auth = FirebaseAuth.getInstance()
     private val storage = FirebaseStorage.getInstance()
+    private val database = FirebaseDatabase.getInstance()
 
     fun sendPasswordResetEmail(email: String, callback: (Boolean, String?) -> Unit) {
         auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
@@ -53,6 +56,35 @@ class FirebaseManager {
             callback(null)
         }
     }
+
+
+    fun uploadImageToStorage(imageUri: Uri, userId: String, userType: String, callback: (String?) -> Unit) {
+        val storageRef = storage.reference.child("$userId/ProfileImage.jpg")
+
+        // Always upload the new image
+        storageRef.putFile(imageUri)
+            .addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    // Update the user's profile image URL in the database
+                    val userRef = database.getReference("Users").child(userType).child(userId).child("UserInfo")
+                    val updateData = mapOf("profilePic" to uri.toString()) // Use map for update
+                    userRef.updateChildren(updateData)
+                        .addOnSuccessListener {
+                            callback(uri.toString())
+                        }
+                        .addOnFailureListener {
+                            callback(null)
+                        }
+                }
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
+
+
+
 
 
 

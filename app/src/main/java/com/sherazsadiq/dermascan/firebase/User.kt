@@ -9,7 +9,7 @@ class User(
     var Email: String = "",
     var UID: String = "",
     var Name: String = "",
-    var Age: Int = 0,
+    var DOB: String = "",
     var Gender: String = "",
     var Address: String = "",
     var Phone: String = "",

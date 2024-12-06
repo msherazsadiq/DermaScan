@@ -9,6 +9,52 @@ import com.google.firebase.database.ValueEventListener
 class FirebaseReadService {
     private val database = FirebaseDatabase.getInstance()
 
+    // ------------------- Fetch User  -------------------
+    fun fetchCurrentUser(uid: String, callback: (Any?, String?) -> Unit) {
+        val database = FirebaseDatabase.getInstance().getReference("Users")
+
+        // First, check in Patients
+        val patientRef = database.child("Patients").child(uid).child("UserInfo")
+        patientRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val user = snapshot.getValue(User::class.java)
+                    if (user != null) {
+                        callback(user, null) // Return the patient object
+                    } else {
+                        callback(null, "Failed to fetch patient data")
+                    }
+                } else {
+                    // If not found in Patients, check in Doctors
+                    val doctorRef = database.child("Doctors").child(uid).child("UserInfo")
+                    doctorRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.exists()) {
+                                val doctor = snapshot.getValue(Doctor::class.java)
+                                if (doctor != null) {
+                                    callback(doctor, null) // Return the doctor object
+                                } else {
+                                    callback(null, "Failed to fetch doctor data")
+                                }
+                            } else {
+                                callback(null, "User not found in both Patients and Doctors")
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            callback(null, "Doctor fetch cancelled: ${error.message}")
+                        }
+                    })
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(null, "Patient fetch cancelled: ${error.message}")
+            }
+        })
+    }
+
+
     // ------------------- Fetch All Patients -------------------
     fun fetchPatients(callback: (List<User>?, String?) -> Unit) {
         val ref = database.getReference("Users").child("Patients")

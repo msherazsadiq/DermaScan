@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Body Part"
+        android:textSize="18sp"
+        android:textColor="@color/DarkBlue"
+        android:fontFamily="@font/konkhmer_sleokchher"
+        android:paddingBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/bodyPartInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_input_box"
+        android:fontFamily="@font/alike"
+        android:hint="E.g., back"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColor="@color/DarkBlue"
+        android:textColorHint="@color/DarkBlue"
+        android:textCursorDrawable="@drawable/cursor_input"
+        android:textSize="15sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/cancelButton"
+            android:layout_width="100dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center|bottom"
+            android:background="@drawable/background_button_dark_blue"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/continueButton"
+            android:layout_width="100dp"
+            android:layout_height="47dp"
+            android:layout_gravity="center|bottom"
+            android:background="@drawable/background_button_dark_blue"
+            android:fontFamily="@font/alike"
+            android:gravity="center"
+            android:text="Continue"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginLeft="30dp"/>
+
+    </LinearLayout>
+</LinearLayout>

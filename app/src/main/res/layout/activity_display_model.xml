@@ -5,9 +5,345 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".DisplayModelActivity">
 
 
-    
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/humanbody"
+        app:layout_constraintBottom_toTopOf="@+id/continueButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
+
+
+
+
+        <!-- ->-> Face <-<- -->
+
+        <FrameLayout
+            android:id="@+id/face"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="10dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/faceSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+
+        <!-- ->-> Shoulder <-<- -->
+
+        <FrameLayout
+            android:id="@+id/shoulder"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="55dp"
+            android:layout_marginEnd="50dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/shoulderSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+
+
+        <!-- ->-> Chest <-<- -->
+
+        <FrameLayout
+            android:id="@+id/chest"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center|top|left"
+            android:layout_marginTop="80dp"
+            android:layout_marginStart="85dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/chestSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+
+        <!-- ->-> Arm <-<- -->
+
+        <FrameLayout
+            android:id="@+id/arm"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right|top"
+            android:layout_marginTop="130dp"
+            android:layout_marginEnd="20dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/armSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+
+        <!-- ->-> Hand <-<- -->
+
+        <FrameLayout
+            android:id="@+id/hand"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="left|center"
+            android:layout_marginStart="0dp"
+            android:layout_marginBottom="30dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/handSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+
+        <!-- ->-> Thigh <-<- -->
+
+        <FrameLayout
+            android:id="@+id/thigh"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="left|center"
+            android:layout_marginTop="55dp"
+            android:layout_marginStart="55dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/thighSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+
+        <!-- ->-> Knee <-<- -->
+
+        <FrameLayout
+            android:id="@+id/knee"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right|center"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="55dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/kneeSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+        <!-- ->-> Leg <-<- -->
+
+        <FrameLayout
+            android:id="@+id/leg"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="65dp"
+            android:layout_marginStart="60dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/legSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+        <!-- ->-> Foot <-<- -->
+
+        <FrameLayout
+            android:id="@+id/foot"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="-10dp"
+            android:layout_marginEnd="55dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/radio_button_outer" />
+
+            <ImageView
+                android:id="@+id/footSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/radio_button_inner"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ProfileViewButton"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/background_circle_white_blur" />
+
+        <ImageView
+            android:id="@+id/ProfileViewButtonIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_back_arrow" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/alike"
+        android:text="Select Body Part"
+        android:textColor="@color/DarkBlue"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/continueButton"
+        android:layout_width="200dp"
+        android:layout_height="47dp"
+        android:layout_gravity="center|bottom"
+        android:background="@drawable/background_button_dark_blue"
+        android:fontFamily="@font/alike"
+        android:gravity="center"
+        android:text="Continue"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/otherButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:fontFamily="@font/alike"
+        android:gravity="center"
+        android:text="Other (not listed here)"
+        android:textColor="@color/DarkBlue"
+        android:textSize="12sp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

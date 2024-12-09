@@ -24,7 +24,7 @@
             <ImageView
                 android:id="@+id/ProfileViewButton"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="match_parent"
                 android:src="@drawable/background_circle_white" />
 
             <ImageView

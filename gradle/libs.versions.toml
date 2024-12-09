@@ -16,6 +16,7 @@ firebaseDatabase = "21.0.0"
 firebaseFirestoreKtx = "25.1.1"
 firebaseStorageKtx = "21.0.1"
 swiperefreshlayout = "1.1.0"
+sceneformUx = "1.17.1"
 
 
 [libraries]
@@ -33,6 +34,7 @@ firebase-database = { group = "com.google.firebase", name = "firebase-database",
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+sceneform-ux = { group = "com.google.ar.sceneform.ux", name = "sceneform-ux", version.ref = "sceneformUx" }
 
 
 [plugins]

@@ -120,7 +120,7 @@ class HomeActivity : AppCompatActivity() {
         // ----------------- Scan Button -----------------
         val scanBtn = findViewById<LinearLayout>(R.id.scanButton)
         scanBtn.setOnClickListener {
-            startActivity(Intent(this, DisplayModelActivity::class.java))
+            startActivity(Intent(this, ScanImageActivity::class.java))
         }
 
 

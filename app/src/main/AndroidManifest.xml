@@ -4,7 +4,7 @@
 
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false" />
+        android:required="true" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,6 +15,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
+
+
+
 
     <application
         android:allowBackup="true"
@@ -26,14 +30,39 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DermaScan"
         tools:targetApi="31">
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.sherazsadiq.dermascan.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
+
+        <activity
+            android:name=".DisplayModelActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
+
+        <activity
+            android:name=".ScanImageActivity"
+            android:exported="false" />
         <activity
             android:name=".manageprofile.EditProfileDoctorActivity"
             android:exported="false" />
         <activity
             android:name=".manageprofile.EditProfileUserActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DisplayModelActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
@@ -59,15 +88,15 @@
         <activity
             android:name=".loginsignup.SignUpActivity"
             android:exported="false" />
+
+
+
         <activity
             android:name=".loginsignup.SignInActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
+
         <activity
             android:name=".loginsignup.RegisterOptionsActivity"
             android:exported="false" />

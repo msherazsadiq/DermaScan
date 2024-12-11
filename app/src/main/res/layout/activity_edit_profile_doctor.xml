@@ -1,10 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".manageprofile.EditProfileDoctorActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/alike"
+            android:text="Cancel"
+            android:textColor="@color/gray"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/alike"
+            android:text="Save"
+            android:textColor="@color/DarkBlue"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:fontFamily="@font/alike"
+            android:text="Edit Profile"
+            android:textColor="@color/DarkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+
+            <FrameLayout
+                android:id="@+id/EditProfileImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:src="@drawable/background_arrow_halfwhite" />
+
+                <ImageView
+                    android:id="@+id/profile_image_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_profile" />
+
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="right|bottom"
+                    android:src="@drawable/background_circle_darkblue" />
+
+                <ImageView
+                    android:id="@+id/ProfileImageIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginEnd="7dp"
+                    android:layout_gravity="right|bottom"
+                    android:src="@drawable/ic_edit_pencil" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/alike"
+                android:text="Name"
+                android:textColor="@color/DarkBlue"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/profile_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/alike"
+                android:text="Email"
+                android:textColor="@color/DarkBlue"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="40dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:text="Date of Birth"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dateOfBirthTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input_box"
+                    android:fontFamily="@font/alike"
+                    android:text="Select Date of Birth"
+                    android:gravity="center|left"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:layout_marginTop="20dp"
+                    android:text="Gender"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/genderSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input_box"
+                    android:fontFamily="@font/alike"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:layout_marginTop="20dp"
+                    android:text="Address"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/addressEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input_box"
+                    android:fontFamily="@font/alike"
+                    android:hint="Enter Address"
+                    android:inputType="textPostalAddress"
+                    android:singleLine="true"
+                    android:textColor="@color/DarkBlue"
+                    android:textColorHint="@color/DarkBlue"
+                    android:textCursorDrawable="@drawable/cursor_input"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:layout_marginTop="20dp"
+                    android:text="Phone Number"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/phoneEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input_box"
+                    android:fontFamily="@font/alike"
+                    android:hint="Enter Phone Number"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:textColor="@color/DarkBlue"
+                    android:textColorHint="@color/DarkBlue"
+                    android:textCursorDrawable="@drawable/cursor_input"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:layout_marginTop="20dp"
+                    android:text="Experience"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/ExperienceEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input_box"
+                    android:fontFamily="@font/alike"
+                    android:hint="Enter Experience (5)"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textColor="@color/DarkBlue"
+                    android:textColorHint="@color/DarkBlue"
+                    android:textCursorDrawable="@drawable/cursor_input"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/alike"
+                    android:layout_marginTop="20dp"
+                    android:text="Specialization"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/specializationEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_input_box"
+                    android:fontFamily="@font/alike"
+                    android:hint="Enter Specialization"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:textColor="@color/DarkBlue"
+                    android:textColorHint="@color/DarkBlue"
+                    android:textCursorDrawable="@drawable/cursor_input"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

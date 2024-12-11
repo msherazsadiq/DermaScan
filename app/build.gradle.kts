@@ -56,6 +56,9 @@ dependencies {
     implementation("androidx.webkit:webkit:1.12.1")
     implementation("com.github.bumptech.glide:glide:4.12.0")
 
+    implementation(libs.okhttp)
+    implementation(libs.gson)
+    
 
 
     testImplementation(libs.junit)

@@ -175,4 +175,40 @@ class FirebaseReadService {
             }
         })
     }
+
+    // ------------------- Fetch Approved and completed profile Doctors -------------------
+    fun fetchApprovedAndCompleteProfileDoctors(callback: (List<Doctor>?, String?) -> Unit) {
+        val ref = database.getReference("Users").child("Doctors")
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val unapprovedList = mutableListOf<Doctor>()
+                Log.d("FetchApprovedDoctors", "Data snapshot: ${snapshot.value}")
+
+                for (doctorSnapshot in snapshot.children) {
+                    // Access the 'approved' attribute under 'UserInfo'
+                    val approved = doctorSnapshot.child("UserInfo/approved").getValue(Boolean::class.java)
+                    val isProfileComplete = doctorSnapshot.child("UserInfo/isProfileComplete").getValue(Boolean::class.java)
+
+                    if (approved == true && isProfileComplete == true) {  // Add to list if 'approved' is true
+                        val doctor = doctorSnapshot.child("UserInfo").getValue(Doctor::class.java)
+                        if (doctor != null) {
+                            unapprovedList.add(doctor)
+                            Log.d("FetchApprovedDoctors", "Doctor added: ${doctor.UID}")
+                        } else {
+                            Log.w("FetchApprovedDoctors", "Null doctor object found")
+                        }
+                    }
+                }
+
+                Log.d("FetchApprovedDoctors", "Total unapproved doctors: ${unapprovedList.size}")
+                callback(unapprovedList, null)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FetchApprovedDoctors", "Database error: ${error.message}")
+                callback(null, error.message)
+            }
+        })
+    }
 }

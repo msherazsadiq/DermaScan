@@ -5,15 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -24,13 +21,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.sherazsadiq.dermascan.firebase.Doctor
 import com.sherazsadiq.dermascan.firebase.FirebaseReadService
 import com.sherazsadiq.dermascan.firebase.User
+import com.sherazsadiq.dermascan.loginsignup.SignInActivity
 import com.sherazsadiq.dermascan.manageprofile.CircleCropTransformation
 import com.sherazsadiq.dermascan.manageprofile.EditProfileDoctorActivity
 import com.sherazsadiq.dermascan.manageprofile.EditProfileUserActivity
+import com.sherazsadiq.dermascan.scan.ScanImageActivity
 
 class HomeActivity : AppCompatActivity() {
     private var originalHeight = 0
@@ -99,6 +97,10 @@ class HomeActivity : AppCompatActivity() {
         }
         headerView.findViewById<LinearLayout>(R.id.icon_logout).setOnClickListener {
             // Handle logout click
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(this, SignInActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
 
@@ -107,9 +109,12 @@ class HomeActivity : AppCompatActivity() {
         recyclerViewDoctors.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
         val firebaseReadService = FirebaseReadService()
-        firebaseReadService.fetchAllDoctors { doctors, error ->
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
+        firebaseReadService.fetchApprovedAndCompleteProfileDoctors { doctors, error ->
             if (doctors != null) {
-                doctorAdapter = DoctorAdapter(doctors)
+                val filteredDoctors = doctors.filter { it.UID != currentUserId }
+                doctorAdapter = DoctorAdapter(filteredDoctors)
                 recyclerViewDoctors.adapter = doctorAdapter
             } else {
                 // Handle error
@@ -120,7 +125,7 @@ class HomeActivity : AppCompatActivity() {
         // ----------------- Scan Button -----------------
         val scanBtn = findViewById<LinearLayout>(R.id.scanButton)
         scanBtn.setOnClickListener {
-            startActivity(Intent(this, ScanImageActivity::class.java))
+            startActivity(Intent(this, DisplayModelActivity::class.java))
         }
 
 

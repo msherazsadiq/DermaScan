@@ -70,5 +70,18 @@ class FirebaseWriteService {
     }
 
 
+    // ------------------- Update Doctor Data -------------------
+    fun updateDoctorData(userId: String, userData: Map<String, Any>, callback: (Boolean) -> Unit) {
+        val userRef = database.getReference("Users").child("Doctors").child(userId).child("UserInfo")
+        userRef.updateChildren(userData)
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+    }
+
+
 
 }

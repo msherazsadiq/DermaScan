@@ -155,6 +155,7 @@ class SignInActivity : AppCompatActivity() {
                     }
                 } else {
                     // If sign in fails, display a message to the user.
+                    progressDialog.dismiss()
                     Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     Log.e("SignInActivity", "Authentication failed", task.exception)
                 }

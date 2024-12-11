@@ -10,6 +10,7 @@ class Doctor(
     var UID: String = "",
     var Name: String = "",
     var Specialization: String = "",
+    var DOB: String = "",
     var Phone: String = "",
     var Address: String = "",
     var Gender: String = "",
@@ -21,5 +22,6 @@ class Doctor(
     var GovernmentID: String = "",
     var Approved: Boolean = false,
     var CreatedAt: String = "",
+    var isProfileComplete: Boolean = false
 
 ) : Serializable

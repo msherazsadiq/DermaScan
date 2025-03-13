@@ -44,6 +44,7 @@
     
 
     <FrameLayout
+        android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -111,7 +112,7 @@
                             android:id="@+id/firstDiseaseName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Acne"
+                            android:text="Loading.."
                             android:textSize="16sp"
                             android:layout_gravity="center"
                             android:textColor="@color/DarkBlue"
@@ -121,7 +122,7 @@
                             android:id="@+id/firstDiseasePercentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="87%"
+                            android:text="0%"
                             android:textSize="16sp"
                             android:layout_gravity="center"
                             android:textColor="@color/DarkBlue"
@@ -152,7 +153,7 @@
                             android:id="@+id/secondDiseaseName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Acne"
+                            android:text="Loading.."
                             android:textSize="16sp"
                             android:layout_gravity="center"
                             android:textColor="@color/DarkBlue"
@@ -162,7 +163,7 @@
                             android:id="@+id/secondDiseasePercentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="87%"
+                            android:text="0%"
                             android:textSize="16sp"
                             android:layout_gravity="center"
                             android:textColor="@color/DarkBlue"

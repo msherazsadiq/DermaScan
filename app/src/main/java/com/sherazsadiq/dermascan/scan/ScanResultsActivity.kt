@@ -1,9 +1,11 @@
 package com.sherazsadiq.dermascan.scan
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -33,6 +35,7 @@ class ScanResultsActivity : AppCompatActivity() {
     private lateinit var firstDPercentage: TextView
     private lateinit var secondDName: TextView
     private lateinit var secondDPercentage: TextView
+    private lateinit var progressDialog: ProgressDialog
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +48,11 @@ class ScanResultsActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+
+        findViewById<FrameLayout>(R.id.backButton).setOnClickListener {
+            finish()
         }
 
         scannedImage = findViewById(R.id.scannedImage)
@@ -74,18 +82,17 @@ class ScanResultsActivity : AppCompatActivity() {
                 val columnIndex =
                     it.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media.DATA)
                 path = it.getString(columnIndex)
-            } /////////////////////////////////////////////////////////////////////////////////////// v
+            }
         }
         return path
     }
 
     private fun uploadImage(imageUri: Uri) {
-        val url = "http://13.60.98.133:5000/predict"
+        val url = "http://129.153.125.79:5000/predict"
         val client = OkHttpClient()
 
         val imagePath = getPathFromUri(imageUri)
         if (imagePath == null) {
-            // Log error if file path cannot be resolved
             Log.e("UploadImage", "Unable to resolve file path from URI: $imageUri")
             return
         }
@@ -93,17 +100,15 @@ class ScanResultsActivity : AppCompatActivity() {
         Log.d("UploadImage", "Resolved file path: $imagePath")
 
         val file = File(imagePath)
-
-        // Determine the MIME type of the file dynamically
         val mimeType = contentResolver.getType(imageUri) ?: "application/octet-stream"
         Log.d("UploadImage", "Determined MIME type: $mimeType")
 
         val requestBody = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart(
-                "file",  // Field name expected by the backend
-                file.name,  // File name
-                file.asRequestBody(mimeType.toMediaTypeOrNull())  // File content with dynamically determined MIME type
+                "file",
+                file.name,
+                file.asRequestBody(mimeType.toMediaTypeOrNull())
             )
             .build()
 
@@ -116,13 +121,28 @@ class ScanResultsActivity : AppCompatActivity() {
 
         Log.d("UploadImage", "Request created: ${request.url}")
 
+        progressDialog = ProgressDialog(this, R.style.CustomProgressDialog)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("UploadImage", "Request failed: ${e.message}", e)
+                runOnUiThread {
+                    progressDialog.dismiss()
+                    firstDName.text = "---"
+                    secondDName.text = "---"
+
+                    Toast.makeText(this@ScanResultsActivity, "Connection Error", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onResponse(call: Call, response: Response) {
                 Log.d("UploadImage", "Response received: ${response.code}")
+                runOnUiThread {
+                    progressDialog.dismiss()
+                }
 
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
@@ -157,6 +177,4 @@ class ScanResultsActivity : AppCompatActivity() {
             }
         })
     }
-
-
 }

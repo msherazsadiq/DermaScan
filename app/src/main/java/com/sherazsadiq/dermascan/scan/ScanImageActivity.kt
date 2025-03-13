@@ -49,6 +49,10 @@ class ScanImageActivity : AppCompatActivity() {
         scanInstructions = findViewById(R.id.scanInstructions)
         continueBtn = findViewById(R.id.continueButton)
 
+        findViewById<FrameLayout>(R.id.backButton).setOnClickListener {
+            finish()
+        }
+
         uploadBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"

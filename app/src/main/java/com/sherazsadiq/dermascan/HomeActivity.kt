@@ -131,7 +131,6 @@ class HomeActivity : AppCompatActivity() {
 
 
         // ----------------- Dragging Gesture for Drawer -----------------
-        val scrollableline = findViewById<LinearLayout>(R.id.scrollableline)
         val scrollableLinearLayout = findViewById<LinearLayout>(R.id.scrollableLinearLayout)
 
         // Initialize dimensions
@@ -144,7 +143,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         // Touch listener for drag gestures
-        scrollableline.setOnTouchListener { _, event ->
+        scrollableLinearLayout.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     initialY = event.rawY

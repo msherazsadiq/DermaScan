@@ -83,6 +83,32 @@ class FirebaseManager {
     }
 
 
+    fun uploadScanedImage(imageUri: Uri, userId: String, userType: String, imageName: String, callback: (String?) -> Unit) {
+
+        val storageRef = storage.reference.child("$userId/Scans/$imageName.jpg")
+
+        // Always upload the new image
+        storageRef.putFile(imageUri)
+            .addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    // Update the user's profile image URL in the database
+                    val userRef = database.getReference("Users").child(userType).child(userId).child("Scans").child(imageName)
+                    val updateData = mapOf("imageURL" to uri.toString()) // Use map for update
+                    userRef.updateChildren(updateData)
+                        .addOnSuccessListener {
+                            callback(uri.toString())
+                        }
+                        .addOnFailureListener {
+                            callback(null)
+                        }
+                }
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
+
 
 
 

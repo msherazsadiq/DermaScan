@@ -5,22 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Vibrator
-import android.view.View
 import android.widget.SeekBar
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.sherazsadiq.dermascan.MainActivity
 import com.sherazsadiq.dermascan.R
-import com.sherazsadiq.dermascan.introslider.IntroSliderAdapter
 import android.os.Handler
 import android.os.Looper
 import com.sherazsadiq.dermascan.loginsignup.RegisterOptionsActivity
 import com.sherazsadiq.dermascan.setStatusBarColor
+
 
 class IntroSliderActivity : AppCompatActivity() {
     private lateinit var swipeUnlock: SeekBar
@@ -54,16 +50,20 @@ class IntroSliderActivity : AppCompatActivity() {
         swipeUnlock = findViewById(R.id.swipe_unlock)
         swipeUnlock.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (progress >= 80) {
+                if (progress < 10) {
+                    seekBar?.progress = 10
+                } else if (progress > 85) {
+                    seekBar?.progress = 80
+                } else if (progress >= 80) {
                     // Vibrate the device
                     val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                     vibrator.vibrate(100) // Vibrate for 100 milliseconds
 
-                    //Toast.makeText(this@IntroSliderActivity, "Home!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@IntroSliderActivity, RegisterOptionsActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
+
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -109,4 +109,5 @@ class IntroSliderActivity : AppCompatActivity() {
         super.onPause()
         handler.removeCallbacksAndMessages(null)
     }
+
 }

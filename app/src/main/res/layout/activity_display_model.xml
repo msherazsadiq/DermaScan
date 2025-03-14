@@ -14,12 +14,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/humanbody"
-        app:layout_constraintBottom_toTopOf="@+id/continueButton"
+        app:layout_constraintBottom_toTopOf="@+id/contButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout3">
-
-
+        app:layout_constraintTop_toBottomOf="@+id/backButton">
 
 
         <!-- ->-> Face <-<- -->
@@ -42,9 +40,9 @@
                 android:id="@+id/faceSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -70,12 +68,11 @@
                 android:id="@+id/shoulderSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
-
 
 
         <!-- ->-> Chest <-<- -->
@@ -85,8 +82,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center|top|left"
-            android:layout_marginTop="80dp"
-            android:layout_marginStart="85dp">
+            android:layout_marginStart="85dp"
+            android:layout_marginTop="80dp">
 
 
             <ImageView
@@ -99,9 +96,9 @@
                 android:id="@+id/chestSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -127,9 +124,9 @@
                 android:id="@+id/armSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -155,9 +152,9 @@
                 android:id="@+id/handSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -169,8 +166,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="left|center"
-            android:layout_marginTop="55dp"
-            android:layout_marginStart="55dp">
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="55dp">
 
 
             <ImageView
@@ -183,9 +180,9 @@
                 android:id="@+id/thighSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -211,9 +208,9 @@
                 android:id="@+id/kneeSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -224,8 +221,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="left|bottom"
-            android:layout_marginBottom="65dp"
-            android:layout_marginStart="60dp">
+            android:layout_marginStart="60dp"
+            android:layout_marginBottom="65dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -237,9 +234,9 @@
                 android:id="@+id/legSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -250,8 +247,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="right|bottom"
-            android:layout_marginBottom="-10dp"
-            android:layout_marginEnd="55dp">
+            android:layout_marginEnd="55dp"
+            android:layout_marginBottom="-10dp">
 
 
             <ImageView
@@ -264,19 +261,17 @@
                 android:id="@+id/footSelected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/radio_button_inner"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:src="@drawable/radio_button_inner"
+                android:visibility="gone" />
 
         </FrameLayout>
-
-
 
 
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/frameLayout3"
+        android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -313,7 +308,7 @@
 
 
     <TextView
-        android:id="@+id/continueButton"
+        android:id="@+id/contButton"
         android:layout_width="200dp"
         android:layout_height="47dp"
         android:layout_gravity="center|bottom"

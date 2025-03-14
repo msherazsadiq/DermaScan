@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/HalfWhite"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/background_item_doctor"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+
+        <ImageView
+            android:id="@+id/scanImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/background_item_doctor_image"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="10dp"
+            tools:ignore="ContentDescription" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:background="@drawable/item_doctor_outline">
+
+            <TextView
+                android:id="@+id/FirstDName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="First Diease Name"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:fontFamily="@font/alike"
+                android:textColor="@color/DarkBlue"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/FirstDPercentage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:textSize="16sp"
+                android:fontFamily="@font/konkhmer_sleokchher"
+                android:textColor="@color/DarkBlue"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="80dp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/scanDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Scan Date"
+                android:textSize="12sp"
+                android:fontFamily="@font/alike"
+                android:textColor="@color/DarkBlue"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="70dp"
+                tools:ignore="MissingConstraints" />
+
+            <FrameLayout
+                android:id="@+id/gotoScanDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/background_arrow_halfwhite" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_up_right_darkblue" />
+            </FrameLayout>
+
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

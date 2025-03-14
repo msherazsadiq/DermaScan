@@ -17,7 +17,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.sherazsadiq.dermascan.scan.ScanDetailsActivity
 import com.sherazsadiq.dermascan.scan.ScanImageActivity
+import com.sherazsadiq.dermascan.scan.ScanResultsActivity
 
 class DisplayModelActivity : AppCompatActivity() {
 
@@ -45,6 +47,8 @@ class DisplayModelActivity : AppCompatActivity() {
     private lateinit var otherButton: TextView
 
     private var selectedBodyPart: String? = null
+    private var imageUriString: String? = null
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +61,14 @@ class DisplayModelActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        imageUriString = intent.getStringExtra("imageUri")
+
+
+        val backbtn = findViewById<FrameLayout>(R.id.backButton)
+        backbtn.setOnClickListener {
+            onBackPressed()
         }
 
         faceButton = findViewById(R.id.face)
@@ -79,7 +91,7 @@ class DisplayModelActivity : AppCompatActivity() {
         legSelected = findViewById(R.id.legSelected)
         footSelected = findViewById(R.id.footSelected)
 
-        continueBtn = findViewById(R.id.continueButton)
+        continueBtn = findViewById(R.id.contButton)
         otherButton = findViewById(R.id.otherButton)
 
         // Setup button clicks
@@ -101,11 +113,12 @@ class DisplayModelActivity : AppCompatActivity() {
 
         // Continue button action
         continueBtn.setOnClickListener {
-            selectedBodyPart?.let { bodyPart ->
-                val intent = Intent(this, ScanImageActivity::class.java)
-                intent.putExtra("bodyPart", bodyPart)
+            if(selectedBodyPart != null) {
+                val intent = Intent(this, ScanResultsActivity::class.java)
+                intent.putExtra("selectedBodyPart", selectedBodyPart)
+                intent.putExtra("imageUri", imageUriString)
                 startActivity(intent)
-            } ?: run {
+            } else {
                 Toast.makeText(this, "Please select a body part first!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -129,9 +142,9 @@ class DisplayModelActivity : AppCompatActivity() {
         button.setOnClickListener {
             vibrate()
             val bodyPart = resources.getResourceEntryName(button.id).capitalize()
-            Toast.makeText(this, "$bodyPart selected", Toast.LENGTH_SHORT).show()
             toggleSelection(selectedView)
             selectedBodyPart = bodyPart
+            Toast.makeText(this, "$selectedBodyPart selected", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -168,11 +181,10 @@ class DisplayModelActivity : AppCompatActivity() {
             .create()
 
         dialogView.findViewById<TextView>(R.id.continueButton).setOnClickListener {
-            val bodyPart = input.text.toString().trim()
-            if (bodyPart.isNotEmpty()) {
-                selectedBodyPart = bodyPart
-                val intent = Intent(this, ScanImageActivity::class.java)
-                intent.putExtra("bodyPart", bodyPart)
+            if (selectedBodyPart != null) {
+                val intent = Intent(this, ScanResultsActivity::class.java)
+                intent.putExtra("selectedBodyPart", selectedBodyPart)
+                intent.putExtra("imageUri", imageUriString)
                 startActivity(intent)
                 dialog.dismiss()
             } else {

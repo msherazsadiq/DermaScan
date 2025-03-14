@@ -211,4 +211,37 @@ class FirebaseReadService {
             }
         })
     }
+
+    // ------------------- Fetch All Scan Disease -------------------
+    fun fetchAllScanDisease(uid: String, userType: String, callback: (List<ScanData>?, String?) -> Unit) {
+        val ref = database.getReference("Users").child(userType).child(uid).child("Scans")
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val scanList = mutableListOf<ScanData>()
+                Log.d("FetchAllScanDisease", "Data snapshot: ${snapshot.value}")
+
+                for (scanSnapshot in snapshot.children) {
+                    val scan = scanSnapshot.getValue(ScanData::class.java)
+                    if (scan != null) {
+                        scanList.add(scan)
+                        val combinedDateTime = "${scan.ScanDate} ${scan.ScanTime}"
+                        Log.d("FetchAllScanDisease", "Scan added: $combinedDateTime")
+                    } else {
+                        Log.w("FetchAllScanDisease", "Null scan object found")
+                    }
+                }
+
+                Log.d("FetchAllScanDisease", "Total scans: ${scanList.size}")
+                callback(scanList, null)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("FetchAllScanDisease", "Database error: ${error.message}")
+                callback(null, error.message)
+            }
+        })
+
+
+    }
 }

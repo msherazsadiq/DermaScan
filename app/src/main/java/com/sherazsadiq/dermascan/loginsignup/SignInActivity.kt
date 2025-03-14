@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,6 +28,8 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var showPasswordButton: ImageView
     private var isPasswordVisible: Boolean = false
+
+    private lateinit var progressDialog: ProgressDialog
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,10 +94,17 @@ class SignInActivity : AppCompatActivity() {
     // ------------------- Sign In User -------------------
     private fun signInUser(email: String, password: String) {
 
-        val progressDialog = ProgressDialog(this)
+        // Show progress dialog while signing in
+        progressDialog = ProgressDialog(this, R.style.CustomProgressDialog)
         progressDialog.setMessage("Signing in...")
         progressDialog.setCancelable(false)
         progressDialog.show()
+
+        val window = progressDialog.window
+        window?.setLayout(
+            (resources.displayMetrics.widthPixels * 0.9).toInt(),  // 90% of screen width
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
 
         val auth = FirebaseAuth.getInstance()
         auth.signInWithEmailAndPassword(email, password)
@@ -102,6 +112,18 @@ class SignInActivity : AppCompatActivity() {
 
                 if (task.isSuccessful) {
                     progressDialog.dismiss()
+
+                    // Show progress dialog to check user or doctor
+                    progressDialog = ProgressDialog(this, R.style.CustomProgressDialog)
+                    progressDialog.setMessage("Checking user type...")
+                    progressDialog.setCancelable(false)
+                    progressDialog.show()
+
+                    val window = progressDialog.window
+                    window?.setLayout(
+                        (resources.displayMetrics.widthPixels * 0.9).toInt(),  // 90% of screen width
+                        WindowManager.LayoutParams.WRAP_CONTENT
+                    )
 
                     val currentUser = auth.currentUser
                     if (currentUser != null) {
@@ -113,6 +135,8 @@ class SignInActivity : AppCompatActivity() {
                             if(userType == "Doctor") {
                                 val approved = dataSnapshot.child("UserInfo/approved")
                                     .getValue(Boolean::class.java) ?: false
+
+                                progressDialog.dismiss()
 
                                 if (!approved) {
                                     val dialogView = LayoutInflater.from(this)
@@ -133,6 +157,8 @@ class SignInActivity : AppCompatActivity() {
                                     return@addOnSuccessListener
                                 }
                                 else {
+                                    progressDialog.dismiss()
+
                                     // Sign in success
                                     Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
                                     val intent = Intent(this, HomeActivity::class.java)
@@ -141,6 +167,7 @@ class SignInActivity : AppCompatActivity() {
                                 }
                             }
                             else {
+                                progressDialog.dismiss()
                                 // Sign in success
                                 Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, HomeActivity::class.java)
@@ -149,6 +176,7 @@ class SignInActivity : AppCompatActivity() {
                             }
 
                         }.addOnFailureListener {
+                            progressDialog.dismiss()
                             Toast.makeText(this, "Failed to fetch user data", Toast.LENGTH_SHORT).show()
                             Log.e("SignInActivity", "Error fetching user data", it)
                         }

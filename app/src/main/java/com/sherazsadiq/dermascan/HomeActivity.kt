@@ -28,6 +28,7 @@ import com.sherazsadiq.dermascan.loginsignup.SignInActivity
 import com.sherazsadiq.dermascan.manageprofile.CircleCropTransformation
 import com.sherazsadiq.dermascan.manageprofile.EditProfileDoctorActivity
 import com.sherazsadiq.dermascan.manageprofile.EditProfileUserActivity
+import com.sherazsadiq.dermascan.scan.ScanHistoryActivity
 import com.sherazsadiq.dermascan.scan.ScanImageActivity
 
 class HomeActivity : AppCompatActivity() {
@@ -92,6 +93,10 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
+        headerView.findViewById<LinearLayout>(R.id.icon_scanHistory).setOnClickListener {
+            val intent = Intent(this, ScanHistoryActivity::class.java)
+            startActivity(intent)
+        }
         headerView.findViewById<LinearLayout>(R.id.icon_settings).setOnClickListener {
             // Handle settings click
         }
@@ -125,7 +130,7 @@ class HomeActivity : AppCompatActivity() {
         // ----------------- Scan Button -----------------
         val scanBtn = findViewById<LinearLayout>(R.id.scanButton)
         scanBtn.setOnClickListener {
-            startActivity(Intent(this, DisplayModelActivity::class.java))
+            startActivity(Intent(this, ScanImageActivity::class.java))
         }
 
 

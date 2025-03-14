@@ -83,5 +83,22 @@ class FirebaseWriteService {
     }
 
 
+    // ------------------- Upload Scanned Image Data -------------------
+    fun uploadScannedImage(userId: String, userType: String, scanData: ScanData, callback: (String?) -> Unit) {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("Users").child(userType).child(userId).child("Scans")
+
+
+        val combinedDateTime = scanData.ScanDate + " " + scanData.ScanTime
+
+        myRef.child(combinedDateTime).setValue(scanData)
+            .addOnSuccessListener {
+                callback("Success")
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
 
 }

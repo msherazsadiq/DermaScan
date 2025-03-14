@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.sherazsadiq.dermascan.DisplayModelActivity
 import com.sherazsadiq.dermascan.R
 import com.sherazsadiq.dermascan.setStatusBarColor
 
@@ -23,6 +24,8 @@ class ScanImageActivity : AppCompatActivity() {
 
     private var imageUri: Uri? = null
     private lateinit var continueBtn: TextView
+
+    private var selectedBodyPart: String? = null
 
     companion object {
         private const val REQUEST_CAMERA_PERMISSION = 200
@@ -44,6 +47,7 @@ class ScanImageActivity : AppCompatActivity() {
             insets
         }
 
+
         uploadBtn = findViewById(R.id.uploadButton)
         imgCap = findViewById(R.id.imageCaptured)
         scanInstructions = findViewById(R.id.scanInstructions)
@@ -54,15 +58,17 @@ class ScanImageActivity : AppCompatActivity() {
         }
 
         uploadBtn.setOnClickListener {
+
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 1000)
+
         }
 
 
         continueBtn.setOnClickListener {
             if (imageUri != null) {
-                val intent = Intent(this, ScanResultsActivity::class.java)
+                val intent = Intent(this, DisplayModelActivity::class.java)
                 intent.putExtra("imageUri", imageUri.toString())
                 startActivity(intent)
             } else {

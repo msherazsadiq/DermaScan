@@ -101,4 +101,20 @@ class FirebaseWriteService {
     }
 
 
+    // ------------------- Upload App Feedback -------------------
+    fun saveAppFeedback(feedback: AppFeedback, callback: (Boolean) -> Unit) {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("Feedback")
+
+        // push the feedback to the database
+        myRef.push().setValue(feedback)
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+    }
+
+
 }

@@ -59,14 +59,6 @@ class EditProfileUserActivity : AppCompatActivity() {
 
 
 
-        updateUI(currentUser)
-
-
-
-
-
-
-
         dateOfBirthTextView.setOnClickListener {
             showDatePickerDialog()
         }
@@ -75,6 +67,8 @@ class EditProfileUserActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.gender_spinner_selected_item, genderOptions)
         adapter.setDropDownViewResource(R.layout.gender_spinner_item)
         genderSpinner.adapter = adapter
+
+        updateUI(currentUser)
 
         val editProfileButton = findViewById<FrameLayout>(R.id.EditProfileImage)
         editProfileButton.setOnClickListener {
@@ -257,13 +251,18 @@ class EditProfileUserActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(R.layout.gender_spinner_item)
         genderSpinner.adapter = adapter
 
-        // Set the gender selection based on user.Gender
-        when (user.Gender) {
+        // Ensure user.Gender is correctly formatted
+        val savedGender = user.Gender.trim() // Trim any accidental spaces
+
+        // Manually set selection
+        when (savedGender) {
             "Male" -> genderSpinner.setSelection(1)
             "Female" -> genderSpinner.setSelection(2)
             "Prefer not to say" -> genderSpinner.setSelection(3)
-            else -> genderSpinner.setSelection(0)  // Default to "Select" if gender is null or doesn't match
+            else -> genderSpinner.setSelection(0) // Default to "Select" if invalid value
         }
+
+
 
 
 

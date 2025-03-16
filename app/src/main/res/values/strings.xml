@@ -30,4 +30,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    // Image Model URL
+    <string name="ImageModel">http://129.153.125.79:5000/predict</string>
+    // LLM Model URL
+    <string name="LLMModel">http:// </string>
+
 </resources>

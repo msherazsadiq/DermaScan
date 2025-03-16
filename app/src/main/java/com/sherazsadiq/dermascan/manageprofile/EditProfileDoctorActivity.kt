@@ -59,7 +59,6 @@ class EditProfileDoctorActivity : AppCompatActivity() {
 
 
 
-        updateUI(currentUser)
 
 
         dateOfBirthTextView.setOnClickListener {
@@ -70,6 +69,9 @@ class EditProfileDoctorActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.gender_spinner_selected_item, genderOptions)
         adapter.setDropDownViewResource(R.layout.gender_spinner_item)
         genderSpinner.adapter = adapter
+
+        updateUI(currentUser)
+
 
         val editProfileButton = findViewById<FrameLayout>(R.id.EditProfileImage)
         editProfileButton.setOnClickListener {

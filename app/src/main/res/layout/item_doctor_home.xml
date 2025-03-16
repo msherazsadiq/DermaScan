@@ -15,14 +15,14 @@
         <ImageView
             android:id="@+id/profile_image"
             android:layout_width="190dp"
-            android:layout_height="230dp"
-            android:background="@drawable/background_button_white"
+            android:layout_height="280dp"
+            android:background="@drawable/background_button_dark_blue"
             android:scaleType="centerCrop" />
 
 
         <FrameLayout
             android:layout_width="180dp"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:background="@drawable/item_doctor_info"
             android:layout_gravity="center|bottom"
             android:layout_marginStart="5dp"
@@ -55,8 +55,28 @@
                 android:paddingTop="5dp"
                 android:singleLine="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="70dp"
                 android:layout_marginTop="20dp"/>
+
+            <FrameLayout
+                android:id="@+id/gotoDoctorViewProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="right|bottom">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/background_arrow_darkblue" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_up_right_halfwhite" />
+            </FrameLayout>
 
 
         </FrameLayout>

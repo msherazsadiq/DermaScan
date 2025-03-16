@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Scan Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { width: 100%; max-width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }
+        h1 { text-align: center; color: #4CAF50; }
+        .info { margin-bottom: 20px; }
+        .bold { font-weight: bold; }
+        .image-container { text-align: center; margin: 20px 0; }
+        .footer { text-align: center; font-size: 12px; color: gray; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Skin Scan Report</h1>
+        <p class="bold">Patient Name: {{patient_name}}</p>
+        <p>Date: {{date}}</p>
+        <p class="bold">Scanned Body Part: {{body_part}}</p>
+        
+        <div class="image-container">
+            <img src="{{image_url}}" alt="Scanned Image" width="200">
+        </div>
+
+        <h2>Diagnosis</h2>
+        <p>1. <span class="bold">{{first_disease}}</span> ({{first_confidence}})</p>
+        <p>2. <span class="bold">{{second_disease}}</span> ({{second_confidence}})</p>
+
+        <p class="bold">Location: {{location}}</p>
+
+        <div class="footer">
+            <p>⚠ This is an AI-generated report. Consult a dermatologist for an official diagnosis.</p>
+        </div>
+    </div>
+</body>
+</html>

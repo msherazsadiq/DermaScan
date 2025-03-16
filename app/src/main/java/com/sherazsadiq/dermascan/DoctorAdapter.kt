@@ -1,5 +1,6 @@
 package com.sherazsadiq.dermascan
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
+import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -18,6 +20,7 @@ class DoctorAdapter(private val doctors: List<Doctor>) : RecyclerView.Adapter<Do
         val profileImage: ImageView = itemView.findViewById(R.id.profile_image)
         val name: TextView = itemView.findViewById(R.id.name)
         val specialization: TextView = itemView.findViewById(R.id.specialization)
+        val gotoProfile: FrameLayout = itemView.findViewById(R.id.gotoDoctorViewProfile)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DoctorViewHolder {
@@ -35,6 +38,14 @@ class DoctorAdapter(private val doctors: List<Doctor>) : RecyclerView.Adapter<Do
             .load(doctor.ProfilePic)
             .transform(CenterCrop(), RoundedCorners(50)) // Apply both center crop and rounded corners
             .into(holder.profileImage)
+
+
+        // pass the doctors object to the DoctorProfileActivity
+        holder.gotoProfile.setOnClickListener {
+            val intent = Intent(holder.itemView.context, DoctorProfileActivity::class.java)
+            intent.putExtra("doctor", doctor)
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
 

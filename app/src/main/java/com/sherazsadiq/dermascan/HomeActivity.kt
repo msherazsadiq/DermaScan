@@ -78,7 +78,10 @@ class HomeActivity : AppCompatActivity() {
         fetchUserData()
 
         // ----------------- Navigation Drawer Menu -----------------
-            headerView.findViewById<LinearLayout>(R.id.icon_profile).setOnClickListener {
+        headerView.findViewById<LinearLayout>(R.id.manageSchedule).setOnClickListener {
+            // Handle manage schedule click
+        }
+        headerView.findViewById<LinearLayout>(R.id.icon_profile).setOnClickListener {
             // Handle profile click
             when (userType) {
                 "Patient" -> {
@@ -99,6 +102,11 @@ class HomeActivity : AppCompatActivity() {
         }
         headerView.findViewById<LinearLayout>(R.id.icon_settings).setOnClickListener {
             // Handle settings click
+        }
+        headerView.findViewById<LinearLayout>(R.id.icon_feedback).setOnClickListener {
+            val intent = Intent(this, FeedbackActivity::class.java)
+            intent.putExtra("userType", userType)  // Passing user type
+            startActivity(intent)
         }
         headerView.findViewById<LinearLayout>(R.id.icon_logout).setOnClickListener {
             // Handle logout click
@@ -210,11 +218,15 @@ class HomeActivity : AppCompatActivity() {
         val navProfileName = headerView.findViewById<TextView>(R.id.profile_name)
         val navProfileEmail = headerView.findViewById<TextView>(R.id.profile_email)
         val navProfileImageIcon = headerView.findViewById<ImageView>(R.id.ProfileImageIcon)
+        val manageSchedule = headerView.findViewById<LinearLayout>(R.id.manageSchedule)
 
         val profileViewButton = findViewById<ImageView>(R.id.ProfileViewButton)
         val profileViewButtonIcon = findViewById<ImageView>(R.id.ProfileViewButtonIcon)
 
+
+
         if (user is User) {
+            manageSchedule.visibility = View.GONE  // Hide for Patients
             updateProfileUI(
                 name = user.Name,
                 email = user.Email,
@@ -227,6 +239,7 @@ class HomeActivity : AppCompatActivity() {
                 profileViewButtonIcon = profileViewButtonIcon
             )
         } else if (user is Doctor) {
+            manageSchedule.visibility = View.VISIBLE  // Show for Doctors
             updateProfileUI(
                 name = user.Name,
                 email = user.Email,

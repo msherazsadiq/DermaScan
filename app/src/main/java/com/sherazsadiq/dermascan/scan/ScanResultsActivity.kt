@@ -263,7 +263,8 @@ class ScanResultsActivity : AppCompatActivity() {
 
     // Function to get the scan results from the API
     private fun getScanResults(imageUri: Uri) {
-        val url = "http://129.153.125.79:5000/predict"
+        // get url from strings
+        val url = getString(R.string.ImageModel)
         val client = OkHttpClient()
 
         val imagePath = getPathFromUri(imageUri)
@@ -315,6 +316,9 @@ class ScanResultsActivity : AppCompatActivity() {
                     firstDName.text = "---"
                     secondDName.text = "---"
 
+                    firstDPercentage.text = "-- %"
+                    secondDPercentage.text = "-- %"
+
                     Toast.makeText(this@ScanResultsActivity, "Connection Error", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -347,8 +351,9 @@ class ScanResultsActivity : AppCompatActivity() {
 
                                 // Upload the data to Firebase
                                 if(!isDataUploaded) {
-                                    isDataUploaded = true
+
                                     fetchUserDataAndUpload()
+                                    isDataUploaded = true
                                 }
 
                             }

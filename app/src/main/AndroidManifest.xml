@@ -32,6 +32,12 @@
         android:theme="@style/Theme.DermaScan"
         tools:targetApi="31">
         <activity
+            android:name=".FeedbackActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".scan.ScanDetailsActivity"
             android:exported="false" />
         <activity

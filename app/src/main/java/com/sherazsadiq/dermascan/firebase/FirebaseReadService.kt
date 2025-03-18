@@ -244,4 +244,25 @@ class FirebaseReadService {
 
 
     }
+
+    // ------------------- Fetch LLM Model API -------------------
+    fun fetchApiUrl(callback: (String?, String?) -> Unit) {
+        val ref = database.getReference("ngrok_url")  // Directly referencing ngrok_url
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val url = snapshot.getValue(String::class.java)
+                if (url != null) {
+                    callback(url, null)
+                } else {
+                    callback(null, "Failed to fetch API URL")
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                callback(null, error.message)
+            }
+        })
+    }
+
 }

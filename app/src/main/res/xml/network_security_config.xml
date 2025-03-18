@@ -2,5 +2,8 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">129.153.125.79</domain>
+        <domain includeSubdomains="true">ngrok-free.app</domain>
     </domain-config>
 </network-security-config>
+
+

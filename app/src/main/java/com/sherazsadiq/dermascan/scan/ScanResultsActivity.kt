@@ -41,6 +41,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.log
 
 
 data class ApiResponse(
@@ -265,6 +266,7 @@ class ScanResultsActivity : AppCompatActivity() {
     private fun getScanResults(imageUri: Uri) {
         // get url from strings
         val url = getString(R.string.ImageModel)
+        Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
         val client = OkHttpClient()
 
         val imagePath = getPathFromUri(imageUri)

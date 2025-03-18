@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.sherazsadiq.dermascan.chat.ChatActivity
 import com.sherazsadiq.dermascan.firebase.Doctor
 import com.sherazsadiq.dermascan.firebase.FirebaseReadService
 import com.sherazsadiq.dermascan.firebase.User
@@ -139,6 +140,12 @@ class HomeActivity : AppCompatActivity() {
         val scanBtn = findViewById<LinearLayout>(R.id.scanButton)
         scanBtn.setOnClickListener {
             startActivity(Intent(this, ScanImageActivity::class.java))
+        }
+
+        // ----------------- Chat Button -----------------
+        val chatBtn = findViewById<LinearLayout>(R.id.chatButton)
+        chatBtn.setOnClickListener {
+            startActivity(Intent(this, ChatActivity::class.java))
         }
 
 

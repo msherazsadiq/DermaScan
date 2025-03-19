@@ -73,6 +73,36 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
 
+
+        <LinearLayout
+            android:id="@+id/hospitalLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/background_nav_schedule"
+            android:padding="16dp"
+            android:visibility="gone"
+            >
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_location" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/alike"
+                android:text="Hospital Location"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textColor="@color/DarkBlue" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/manageSchedule"
             android:layout_width="match_parent"

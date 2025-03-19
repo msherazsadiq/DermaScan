@@ -1,6 +1,7 @@
 [versions]
 agp = "8.9.0"
 glide = "4.16.0"
+glideVersion = "4.12.0"
 gson = "2.11.0"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
@@ -17,13 +18,20 @@ firebaseDatabase = "21.0.0"
 firebaseFirestoreKtx = "25.1.2"
 firebaseStorageKtx = "21.0.1"
 okhttp = "4.12.0"
+places = "4.1.0"
+playServices = "12.0.1"
 swiperefreshlayout = "1.1.0"
 sceneformUx = "1.17.1"
+playServicesMaps = "19.1.0"
+webkit = "1.13.0"
+googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-v4120 = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -38,10 +46,14 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
+play-services = { module = "com.google.android.gms:play-services", version.ref = "playServices" }
 sceneform-ux = { group = "com.google.ar.sceneform.ux", name = "sceneform-ux", version.ref = "sceneformUx" }
+play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }

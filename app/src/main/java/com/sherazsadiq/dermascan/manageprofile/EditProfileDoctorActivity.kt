@@ -167,7 +167,7 @@ class EditProfileDoctorActivity : AppCompatActivity() {
             "phone" to phoneNo,
             "experience" to experience,
             "specialization" to specialization,
-            "isProfileComplete" to true
+            "profileComplete" to true
         )
         firebaseWriteService.updateDoctorData(currentUser.UID, userData) { success ->
             callback(success)  // Pass success/failure to the callback

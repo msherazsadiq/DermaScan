@@ -35,5 +35,6 @@
     <string name="ImageModel">http://129.153.125.79:5000/predict</string>
     // LLM Model URL
     <string name="LLMModel">http:// </string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>

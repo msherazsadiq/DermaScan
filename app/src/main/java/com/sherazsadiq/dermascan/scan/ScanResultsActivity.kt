@@ -36,6 +36,7 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.OkHttpClient
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -267,7 +268,13 @@ class ScanResultsActivity : AppCompatActivity() {
         // get url from strings
         val url = getString(R.string.ImageModel)
         Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
-        val client = OkHttpClient()
+
+
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS) // Increase connection timeout
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS) // Increase read timeout
+            .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS) // Increase write timeout
+            .build()
 
         val imagePath = getPathFromUri(imageUri)
         if (imagePath == null) {

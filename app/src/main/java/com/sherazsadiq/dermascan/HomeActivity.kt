@@ -27,8 +27,10 @@ import com.sherazsadiq.dermascan.firebase.FirebaseReadService
 import com.sherazsadiq.dermascan.firebase.User
 import com.sherazsadiq.dermascan.loginsignup.SignInActivity
 import com.sherazsadiq.dermascan.manageprofile.CircleCropTransformation
+import com.sherazsadiq.dermascan.manageprofile.DoctorScheduleActivity
 import com.sherazsadiq.dermascan.manageprofile.EditProfileDoctorActivity
 import com.sherazsadiq.dermascan.manageprofile.EditProfileUserActivity
+import com.sherazsadiq.dermascan.manageprofile.HospitalLocationActivity
 import com.sherazsadiq.dermascan.scan.ScanHistoryActivity
 import com.sherazsadiq.dermascan.scan.ScanImageActivity
 
@@ -74,13 +76,20 @@ class HomeActivity : AppCompatActivity() {
 
         val headerView = navigationView.getHeaderView(0)
 
-
         // Fetch initial user data
         fetchUserData()
 
         // ----------------- Navigation Drawer Menu -----------------
+        headerView.findViewById<LinearLayout>(R.id.hospitalLocation).setOnClickListener {
+            // Handle hospital location click
+            val intent = Intent(this, HospitalLocationActivity::class.java)
+            startActivity(intent)
+        }
         headerView.findViewById<LinearLayout>(R.id.manageSchedule).setOnClickListener {
             // Handle manage schedule click
+            val intent = Intent(this, DoctorScheduleActivity::class.java)
+            startActivity(intent)
+
         }
         headerView.findViewById<LinearLayout>(R.id.icon_profile).setOnClickListener {
             // Handle profile click
@@ -226,6 +235,7 @@ class HomeActivity : AppCompatActivity() {
         val navProfileEmail = headerView.findViewById<TextView>(R.id.profile_email)
         val navProfileImageIcon = headerView.findViewById<ImageView>(R.id.ProfileImageIcon)
         val manageSchedule = headerView.findViewById<LinearLayout>(R.id.manageSchedule)
+        val hospitalLocation = headerView.findViewById<LinearLayout>(R.id.hospitalLocation)
 
         val profileViewButton = findViewById<ImageView>(R.id.ProfileViewButton)
         val profileViewButtonIcon = findViewById<ImageView>(R.id.ProfileViewButtonIcon)
@@ -234,6 +244,7 @@ class HomeActivity : AppCompatActivity() {
 
         if (user is User) {
             manageSchedule.visibility = View.GONE  // Hide for Patients
+            hospitalLocation.visibility = View.GONE
             updateProfileUI(
                 name = user.Name,
                 email = user.Email,
@@ -247,6 +258,7 @@ class HomeActivity : AppCompatActivity() {
             )
         } else if (user is Doctor) {
             manageSchedule.visibility = View.VISIBLE  // Show for Doctors
+            hospitalLocation.visibility = View.VISIBLE
             updateProfileUI(
                 name = user.Name,
                 email = user.Email,

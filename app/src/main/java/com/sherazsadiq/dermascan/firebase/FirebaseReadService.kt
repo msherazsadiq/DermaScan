@@ -188,7 +188,7 @@ class FirebaseReadService {
                 for (doctorSnapshot in snapshot.children) {
                     // Access the 'approved' attribute under 'UserInfo'
                     val approved = doctorSnapshot.child("UserInfo/approved").getValue(Boolean::class.java)
-                    val isProfileComplete = doctorSnapshot.child("UserInfo/isProfileComplete").getValue(Boolean::class.java)
+                    val isProfileComplete = doctorSnapshot.child("UserInfo/profileComplete").getValue(Boolean::class.java)
 
                     if (approved == true && isProfileComplete == true) {  // Add to list if 'approved' is true
                         val doctor = doctorSnapshot.child("UserInfo").getValue(Doctor::class.java)

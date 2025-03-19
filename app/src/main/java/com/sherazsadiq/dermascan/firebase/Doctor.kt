@@ -14,7 +14,6 @@ class Doctor(
     var Phone: String = "",
     var Address: String = "",
     var Gender: String = "",
-    var Rating: Double = 0.0,
     var Experience: String = "",
     var ProfilePic: String = "",
     var MedicalLicense: String = "",
@@ -22,6 +21,9 @@ class Doctor(
     var GovernmentID: String = "",
     var Approved: Boolean = false,
     var CreatedAt: String = "",
-    var isProfileComplete: Boolean = false
+    var ProfileComplete: Boolean = false
 
 ) : Serializable
+
+
+data class Schedule(val day: String, var startTime: String, var endTime: String)

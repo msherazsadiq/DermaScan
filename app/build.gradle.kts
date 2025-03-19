@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -53,13 +54,19 @@ dependencies {
     implementation(libs.firebase.storage.ktx)
     implementation(libs.androidx.swiperefreshlayout)
 
-    implementation("androidx.webkit:webkit:1.12.1")
-    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation(libs.androidx.webkit)
+    implementation(libs.glide.v4120)
 
 
     implementation(libs.okhttp)
     implementation(libs.gson)
-    
+
+    implementation(libs.play.services.maps)
+    implementation(libs.places)
+
+    implementation(libs.play.services)
+
+
 
 
     testImplementation(libs.junit)

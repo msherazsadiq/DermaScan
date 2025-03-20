@@ -39,7 +39,14 @@ class SignUpDoctorActivity : AppCompatActivity() {
             if (nameTxt.isEmpty() || emailTxt.isEmpty() || passwordTxt.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else {
-                signUpDoctor(nameTxt, emailTxt, passwordTxt)
+
+                val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$"
+                if (passwordTxt.matches(passwordPattern.toRegex())) {
+                    signUpDoctor(nameTxt, emailTxt, passwordTxt)
+                } else {
+                    Toast.makeText(this, "Password must contain at least one lowercase letter, one uppercase letter, and one number", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
 

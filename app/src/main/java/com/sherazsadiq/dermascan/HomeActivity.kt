@@ -7,6 +7,7 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -32,6 +33,7 @@ import com.sherazsadiq.dermascan.manageprofile.EditProfileUserActivity
 import com.sherazsadiq.dermascan.manageprofile.MapActivity
 import com.sherazsadiq.dermascan.scan.ScanHistoryActivity
 import com.sherazsadiq.dermascan.scan.ScanImageActivity
+
 
 class HomeActivity : AppCompatActivity() {
     private var originalHeight = 0
@@ -115,6 +117,13 @@ class HomeActivity : AppCompatActivity() {
         headerView.findViewById<LinearLayout>(R.id.icon_logout).setOnClickListener {
             // Handle logout click
             FirebaseAuth.getInstance().signOut()
+
+            // Clear SharedPreferences
+            val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
+
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
             finish()
@@ -138,6 +147,41 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+        val searchBtn = findViewById<FrameLayout>(R.id.searchButton)
+        searchBtn.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java))
+        }
+
+
+        val scanButton = findViewById< FrameLayout>(R.id.gotoScanActivity)
+        val scanHistoryButton = findViewById<FrameLayout>(R.id.gotoScanHistoryActivity)
+
+        val chatButton = findViewById<FrameLayout>(R.id.gotoChatActivity)
+        val chatHistoryButton = findViewById<FrameLayout>(R.id.gotoChatHistoryActivity)
+
+        scanButton.setOnClickListener {
+            startActivity(Intent(this, ScanImageActivity::class.java))
+        }
+
+        scanHistoryButton.setOnClickListener {
+            startActivity(Intent(this, ScanHistoryActivity::class.java))
+        }
+
+        chatButton.setOnClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("known", "0");
+            startActivity(intent)
+        }
+
+        chatHistoryButton.setOnClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("known", "1");
+            startActivity(intent)
+        }
+
+
+
+
 
         // ----------------- Scan Button -----------------
         val scanBtn = findViewById<LinearLayout>(R.id.scanButton)
@@ -148,7 +192,12 @@ class HomeActivity : AppCompatActivity() {
         // ----------------- Chat Button -----------------
         val chatBtn = findViewById<LinearLayout>(R.id.chatButton)
         chatBtn.setOnClickListener {
-            startActivity(Intent(this, ChatActivity::class.java))
+
+
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("known", "0");
+            startActivity(intent)
+
         }
 
 

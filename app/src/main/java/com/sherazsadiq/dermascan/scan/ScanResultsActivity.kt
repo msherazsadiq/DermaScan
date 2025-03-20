@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.sherazsadiq.dermascan.HomeActivity
 import com.sherazsadiq.dermascan.R
+import com.sherazsadiq.dermascan.chat.ChatActivity
 import com.sherazsadiq.dermascan.firebase.Doctor
 import com.sherazsadiq.dermascan.firebase.FirebaseManager
 import com.sherazsadiq.dermascan.firebase.FirebaseReadService
@@ -67,6 +68,9 @@ class ScanResultsActivity : AppCompatActivity() {
     private var selectedBodyPart: String? = null
 
     private var isDataUploaded : Boolean = false
+    private lateinit var pdfPath: String
+
+    private lateinit var scannedResultText: String
 
 
     @SuppressLint("MissingInflatedId")
@@ -123,16 +127,28 @@ class ScanResultsActivity : AppCompatActivity() {
             val userImageBitmap = uriToBitmap(this, imageUri)
 
             if (userImageBitmap != null) {
-                val pdfPath = generateSkinScanPDF(
-                    this,
-                    userImageBitmap,  // Pass the converted Bitmap
-                    "Psoriasis",
-                    "85%",
-                    "Eczema",
-                    "60%",
-                    "Forearm",
-                    "Lahore, Pakistan"
-                )
+
+                if(secondDPercentage.text.toString() == "0%"){
+                    pdfPath = generateSkinScanPDF(
+                        this,
+                        userImageBitmap,  // Pass the converted Bitmap
+                        firstDName.text.toString(),
+                        firstDPercentage.text.toString(),
+                        "",
+                        "",
+                        selectedBodyPart.toString()
+                    ).toString()
+                } else {
+                    pdfPath = generateSkinScanPDF(
+                        this,
+                        userImageBitmap,  // Pass the converted Bitmap
+                        firstDName.text.toString(),
+                        firstDPercentage.text.toString(),
+                        secondDName.text.toString(),
+                        secondDPercentage.text.toString(),
+                        selectedBodyPart.toString()
+                    ).toString()
+                }
 
                 if (pdfPath != null) {
                     Toast.makeText(this, "PDF saved in Downloads", Toast.LENGTH_LONG).show()
@@ -143,6 +159,16 @@ class ScanResultsActivity : AppCompatActivity() {
             }
         }
 
+
+
+        val gotoChat = findViewById<LinearLayout>(R.id.gotoChat)
+        gotoChat.setOnClickListener {
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.putExtra("known", "1");
+            intent.putExtra("scanned_result", scannedResultText)
+            startActivity(intent)
+            finish()
+        }
 
     }
 
@@ -267,7 +293,6 @@ class ScanResultsActivity : AppCompatActivity() {
     private fun getScanResults(imageUri: Uri) {
         // get url from strings
         val url = getString(R.string.ImageModel)
-        Toast.makeText(this, url, Toast.LENGTH_SHORT).show()
 
 
         val client = OkHttpClient.Builder()
@@ -322,11 +347,14 @@ class ScanResultsActivity : AppCompatActivity() {
                 Log.e("UploadImage", "Request failed: ${e.message}", e)
                 runOnUiThread {
                     progressDialog.dismiss()
+                    /*
                     firstDName.text = "---"
                     secondDName.text = "---"
 
                     firstDPercentage.text = "-- %"
                     secondDPercentage.text = "-- %"
+
+                     */
 
                     Toast.makeText(this@ScanResultsActivity, "Connection Error", Toast.LENGTH_SHORT).show()
                 }
@@ -347,16 +375,41 @@ class ScanResultsActivity : AppCompatActivity() {
                             val apiResponse = Gson().fromJson(responseBody, ApiResponse::class.java)
                             val sortedProbabilities = apiResponse.probabilities.entries.sortedByDescending { it.value }
                             runOnUiThread {
+
+                                findViewById<LinearLayout>(R.id.scanResultsBar).visibility = LinearLayout.VISIBLE
+
                                 if (sortedProbabilities.isNotEmpty()) {
                                     Log.d("UploadImage", "First disease: ${sortedProbabilities[0].key} - ${sortedProbabilities[0].value}")
                                     firstDName.text = sortedProbabilities[0].key
+                                    if(firstDName.text == "Object"){
+                                        firstDName.text = "Not Skin"
+                                    }
                                     firstDPercentage.text = "${(sortedProbabilities[0].value * 100).toInt()}%"
                                 }
                                 if (sortedProbabilities.size > 1) {
                                     Log.d("UploadImage", "Second disease: ${sortedProbabilities[1].key} - ${sortedProbabilities[1].value}")
-                                    secondDName.text = sortedProbabilities[1].key
-                                    secondDPercentage.text = "${(sortedProbabilities[1].value * 100).toInt()}%"
+                                    if((sortedProbabilities[1].value * 100).toInt() == 0){
+                                        findViewById<FrameLayout>(R.id.secndDiseaseResult).visibility = FrameLayout.GONE
+                                    } else {
+                                        secondDName.text = sortedProbabilities[1].key
+                                        if(secondDName.text == "Object"){
+                                            secondDName.text = "Not Skin"
+                                        }
+                                        secondDPercentage.text = "${(sortedProbabilities[1].value * 100).toInt()}%"
+                                    }
                                 }
+
+                                // Set the scanned result text
+                                scannedResultText = "Below is diagnostic information generated from an image " +
+                                        "analysis: 1. Disease: ${firstDName.text} - Confidence Score: ${firstDPercentage.text} -" +
+                                        " Location on Body: ${selectedBodyPart.toString()} 2. Disease: ${secondDName.text} " +
+                                        "- Confidence Score: ${secondDPercentage.text} - Location on Body: " +
+                                        "${selectedBodyPart.toString()}. The above predictions are based solely on the " +
+                                        "image analysis. I would like to discuss the details of the first condition, ${firstDName.text}. " +
+                                        "IMPORTANT: Your role is strictly to ask clarifying questions. DO NOT provide any " +
+                                        "direct analysis, advice, recommendations, or treatment options at this point. " +
+                                        "Instead, ask one or more questions to help gather more details about my symptoms, " +
+                                        "medical history, and overall context. Please begin by asking a clarifying question."
 
                                 // Upload the data to Firebase
                                 if(!isDataUploaded) {

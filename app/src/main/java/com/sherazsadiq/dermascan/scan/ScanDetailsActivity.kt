@@ -30,6 +30,10 @@ class ScanDetailsActivity : AppCompatActivity() {
 
     private lateinit var docDownload: FrameLayout
 
+    private lateinit var pdfPath: String
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +64,16 @@ class ScanDetailsActivity : AppCompatActivity() {
 
         firstDName.text = scan.FirstDName
         firstDPercentage.text = scan.FirstDPercentage
-        secondDName.text = scan.SecondDName
-        secondDPercentage.text = scan.SecondDPercentage
+
+        if (scan.SecondDPercentage == "0%"){
+            findViewById<FrameLayout>(R.id.secondDiseaseResult).visibility = FrameLayout.GONE
+        }else{
+            secondDName.text = scan.SecondDName
+            secondDPercentage.text = scan.SecondDPercentage
+
+        }
+
+
         scanDate.text = scan.ScanDate
         scanTime.text = scan.ScanTime
         scanBodyPart.text = scan.ScanBodyPart
@@ -78,16 +90,28 @@ class ScanDetailsActivity : AppCompatActivity() {
             downloadImageAsBitmap(scan.ImageURL) { bitmap ->
                 if (bitmap != null) {
                     // Generate PDF using the Bitmap
-                    val pdfPath = generateSkinScanPDF(
-                        this,
-                        bitmap, // Pass the downloaded bitmap
-                        scan.FirstDName,
-                        scan.FirstDPercentage,
-                        scan.SecondDName,
-                        scan.SecondDPercentage,
-                        scan.ScanBodyPart,
-                        "Lahore, Pakistan"
-                    )
+
+                    if(scan.SecondDPercentage == "0%"){
+                        pdfPath = generateSkinScanPDF(
+                            this,
+                            bitmap, // Pass the downloaded bitmap
+                            scan.FirstDName,
+                            scan.FirstDPercentage,
+                            "",
+                            "",
+                            scan.ScanBodyPart
+                        ).toString()
+                    } else {
+                        pdfPath = generateSkinScanPDF(
+                            this,
+                            bitmap, // Pass the downloaded bitmap
+                            scan.FirstDName,
+                            scan.FirstDPercentage,
+                            scan.SecondDName,
+                            scan.SecondDPercentage,
+                            scan.ScanBodyPart
+                        ).toString()
+                    }
 
                     if (pdfPath != null) {
                         Toast.makeText(this, "PDF saved in Downloads", Toast.LENGTH_LONG).show()

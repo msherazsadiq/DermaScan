@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -27,7 +28,9 @@ import com.sherazsadiq.dermascan.firebase.FirebaseManager
 import com.sherazsadiq.dermascan.firebase.FirebaseWriteService
 import com.sherazsadiq.dermascan.firebase.User
 import com.sherazsadiq.dermascan.setStatusBarColor
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class EditProfileDoctorActivity : AppCompatActivity() {
     private lateinit var currentUser: Doctor
@@ -96,6 +99,44 @@ class EditProfileDoctorActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            // Check if DOB is less than the current date
+            val dobFormat = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
+            val dobDate = dobFormat.parse(dob)
+            val currentDate = Calendar.getInstance().time
+
+            if (dobDate != null && dobDate.after(currentDate)) {
+                Toast.makeText(this, "Please enter a valid date of birth", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if(phoneNo.length != 11){
+                Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val birthYear = dob.split("/")[2].toInt()
+            val birthMonth = dob.split("/")[1].toInt()
+            val birthDay = dob.split("/")[0].toInt()
+
+            val dobCalendar = Calendar.getInstance().apply {
+                set(birthYear, birthMonth - 1, birthDay)
+            }
+            val currentCalendar = Calendar.getInstance()
+
+            var age = currentCalendar.get(Calendar.YEAR) - dobCalendar.get(Calendar.YEAR)
+            if (currentCalendar.get(Calendar.DAY_OF_YEAR) < dobCalendar.get(Calendar.DAY_OF_YEAR)) {
+                age--
+            }
+
+            val experienceInt = experience.toIntOrNull()
+            if (experienceInt == null || age <= experienceInt) {
+                Toast.makeText(this, "Please enter a valid experience", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
+
 
             // Show progress dialog for saving user data
             val progressDialog = ProgressDialog(this)

@@ -28,7 +28,6 @@ fun generateSkinScanPDF(
     secondDisease: String,
     secondConfidence: String,
     selectedBodyPart: String,
-    location: String?
 ): String? {
     val pdfDocument = PdfDocument()
     val paint = Paint()
@@ -82,10 +81,6 @@ fun generateSkinScanPDF(
     canvas.drawText("🩹 Scanned Body Part: $selectedBodyPart", 50f, yPos, paint)
     yPos += 30f
 
-    if (location != null) {
-        canvas.drawText("📍 Location: $location", 50f, yPos, paint)
-        yPos += 40f
-    }
 
     // **7️⃣ Disclaimer**
     titlePaint.textSize = 16f

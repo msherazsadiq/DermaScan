@@ -12,7 +12,6 @@ class Doctor(
     var Specialization: String = "",
     var DOB: String = "",
     var Phone: String = "",
-    var Address: String = "",
     var Gender: String = "",
     var Experience: String = "",
     var ProfilePic: String = "",

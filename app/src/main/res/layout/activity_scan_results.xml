@@ -125,6 +125,7 @@
             android:orientation="vertical">
 
 
+
             <FrameLayout
                 android:id="@+id/docDownloadButton"
                 android:layout_width="wrap_content"
@@ -133,7 +134,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp">
+                android:layout_marginEnd="10dp"
+                >
 
                 <ImageView
                     android:layout_width="47dp"
@@ -148,6 +150,7 @@
             </FrameLayout>
 
             <LinearLayout
+                android:id="@+id/scanResultsBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
@@ -157,10 +160,12 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/background_dual_scan_result"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
 
                 <FrameLayout
+                    android:id="@+id/firstDiseaseResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/outline_scan_result">
@@ -200,6 +205,7 @@
                 </FrameLayout>
 
                 <FrameLayout
+                    android:id="@+id/secndDiseaseResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -215,7 +221,7 @@
                             android:id="@+id/secondDiseaseName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Loading.."
+                            android:text="No Second Disease"
                             android:textSize="14sp"
                             android:singleLine="true"
                             android:layout_gravity="center"
@@ -228,7 +234,7 @@
                             android:id="@+id/secondDiseasePercentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0%"
+                            android:text="-"
                             android:textSize="14sp"
                             android:layout_gravity="center"
                             android:textColor="@color/DarkBlue"
@@ -257,6 +263,7 @@
             android:paddingEnd="25dp">
 
             <LinearLayout
+                android:id="@+id/gotoChat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -267,6 +274,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/alike"
                     android:singleLine="false"
+                    android:maxWidth="250dp"
                     android:text="Ask More About These Conditions Chat with our AI for further guidance"
                     android:textColor="@color/DarkBlue"
                     android:textSize="16sp" />
@@ -275,6 +283,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
+                    android:layout_marginLeft="20dp"
                     android:background="@drawable/ic_arrow_right"
                     />
 
@@ -295,22 +304,6 @@
                     android:background="@drawable/line"/>
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="40dp"
-                    android:textColor="@color/DarkBlue"
-                    android:fontFamily="@font/alike"
-                    android:text="Find a Dermatologist"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/ic_arrow_right"/>
 
 
             </FrameLayout>

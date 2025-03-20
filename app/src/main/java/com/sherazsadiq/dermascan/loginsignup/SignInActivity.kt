@@ -161,6 +161,14 @@ class SignInActivity : AppCompatActivity() {
 
                                     // Sign in success
                                     Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
+
+                                    // Save login state in SharedPreferences
+                                    val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                                    val editor = sharedPreferences.edit()
+                                    editor.putString("userEmail", email)
+                                    editor.putBoolean("isLoggedIn", true)
+                                    editor.apply()
+
                                     val intent = Intent(this, HomeActivity::class.java)
                                     startActivity(intent)
                                     finish()
@@ -170,6 +178,14 @@ class SignInActivity : AppCompatActivity() {
                                 progressDialog.dismiss()
                                 // Sign in success
                                 Toast.makeText(this, "Sign in successful", Toast.LENGTH_SHORT).show()
+
+                                // Save login state in SharedPreferences
+                                val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                                val editor = sharedPreferences.edit()
+                                editor.putString("userEmail", email)
+                                editor.putBoolean("isLoggedIn", true)
+                                editor.apply()
+
                                 val intent = Intent(this, HomeActivity::class.java)
                                 startActivity(intent)
                                 finish()

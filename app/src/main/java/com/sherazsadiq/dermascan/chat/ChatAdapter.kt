@@ -24,7 +24,12 @@ class ChatAdapter(private val messages: MutableList<ChatMessage>) : RecyclerView
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isUser) R.layout.item_query else R.layout.item_response
+        val message = messages[position].message
+        return when {
+            message == "Error: Connection timeout. Please try again." || message == "Error: Unexpected response" -> R.layout.item_error_response
+            messages[position].isUser -> R.layout.item_query
+            else -> R.layout.item_response
+        }
     }
 
     override fun getItemCount(): Int = messages.size

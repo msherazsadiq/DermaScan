@@ -21,9 +21,20 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Thread {
             Thread.sleep(1000)
-            val intent = Intent(this, IntroSliderActivity::class.java)
-            startActivity(intent)
-            finish()
+
+            // Check login state
+            val sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+            val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+            if (isLoggedIn) {
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this, IntroSliderActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
         }.start()
     }
 }

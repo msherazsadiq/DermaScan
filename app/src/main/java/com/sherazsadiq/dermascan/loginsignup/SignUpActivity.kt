@@ -51,7 +51,12 @@ class SignUpActivity : AppCompatActivity() {
             if (nameTxt.isEmpty() || emailTxt.isEmpty() || passwordTxt.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else {
-                signUpUser(nameTxt, emailTxt, passwordTxt)
+                val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$"
+                if (passwordTxt.matches(passwordPattern.toRegex())) {
+                    signUpUser(nameTxt, emailTxt, passwordTxt)
+                } else {
+                    Toast.makeText(this, "Password must contain at least one lowercase letter, one uppercase letter, and one number", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

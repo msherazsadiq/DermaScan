@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.sherazsadiq.dermascan.chat.ChatMessage
 
 class FirebaseWriteService {
     private val storage = FirebaseStorage.getInstance()
@@ -127,5 +128,22 @@ class FirebaseWriteService {
             .addOnFailureListener {
                 callback(false)
             }
+    }
+
+
+    fun uploadChatMessages(childID: String, userId: String, userType: String, chatMessages: List<ChatMessage>, callback: (Boolean) -> Unit) {
+        val userRef = database.getReference("Users").child(userType).child(userId).child("Chats").child(childID)
+
+        for (message in chatMessages) {
+            userRef.push().setValue(message)
+                .addOnSuccessListener {
+                    // Handle success if needed
+                }
+                .addOnFailureListener {
+                    callback(false)
+                    return@addOnFailureListener
+                }
+        }
+        callback(true)
     }
 }

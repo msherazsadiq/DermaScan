@@ -214,6 +214,9 @@ class FirebaseReadService {
         })
     }
 
+
+
+
     // ------------------- Fetch All Scan Disease -------------------
     fun fetchAllScanDisease(uid: String, userType: String, callback: (List<ScanData>?, String?) -> Unit) {
         val ref = database.getReference("Users").child(userType).child(uid).child("Scans")
@@ -288,5 +291,7 @@ class FirebaseReadService {
         val currentUser = auth.currentUser
         return currentUser?.uid
     }
+
+
 
 }

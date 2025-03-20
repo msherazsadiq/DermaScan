@@ -1,27 +1,41 @@
 package com.sherazsadiq.dermascan.chat
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.sherazsadiq.dermascan.R
 import com.sherazsadiq.dermascan.firebase.FirebaseReadService
+import com.sherazsadiq.dermascan.firebase.FirebaseWriteService
+import com.sherazsadiq.dermascan.firebase.User
 import com.sherazsadiq.dermascan.setStatusBarColor
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 
 class ChatActivity : AppCompatActivity() {
+
+    private var currentUserData: Any? = null
+    private var userType: String? = null
+
+    private var isMessagesUploaded = false
 
     private lateinit var query: EditText
     private lateinit var sendButton: FrameLayout
@@ -29,7 +43,15 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var chatAdapter: ChatAdapter
     private var apiUrl: String? = null // Store API URL here
 
+    private lateinit var known: String
+    private lateinit var scannedResultText: String
+
     private lateinit var backButton: LinearLayout
+    private lateinit var timestamp: String
+
+    // Mutable list to store chat context with a fixed size of 30
+    private var contextList = mutableListOf<ChatMessage>()
+    private var allChatList = mutableListOf<ChatMessage>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +68,11 @@ class ChatActivity : AppCompatActivity() {
 
         backButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
+            uploadAllMessagesToDatabase()
             onBackPressed()
         }
+
+        fetchUserData()
 
         query = findViewById(R.id.queryEditText)
         sendButton = findViewById(R.id.sendPrompt)
@@ -57,43 +82,160 @@ class ChatActivity : AppCompatActivity() {
         chatMessagesRecycler.layoutManager = LinearLayoutManager(this)
         chatMessagesRecycler.adapter = chatAdapter
 
-        val firebaseService = FirebaseReadService()
-        // Fetch API URL
-        firebaseService.fetchApiUrl { url, error ->
-            if (url != null) {
-                apiUrl = url
-                apiUrl += "/query"
+
+        // Initialize the context list with the hardcoded message
+        known = intent.getStringExtra("known") ?: ""
+        val baseContext = when (known) {
+            "0" -> """
+        Below is a conversation between a patient and a medical assistant named Dermascan. Dermascan's role is strictly to ask exactly one focused clarifying question to gather additional details about the patient's symptoms and medical history, without providing any analysis, advice, or treatment recommendations. If, after hearing the patient's response, Dermascan becomes moderately confident that a skin disease might be present, it should briefly mention that possibility and then ask one targeted follow-up question to confirm the suspicion. Please begin by welcoming the patient and asking one clear, focused clarifying question.
+    """.trimIndent().replace("\n", " ")
+            "1" -> """
+        Below is a conversation between a patient and a medical assistant named Dermascan. Dermascan's role is strictly to ask exactly one focused clarifying question to gather additional details about the patient's symptoms and medical history, without providing any analysis, advice, or treatment recommendations. If, after hearing the patient's response, Dermascan becomes moderately confident that a skin disease might be present, it should briefly mention that possibility and then ask one targeted follow-up question to confirm the suspicion. Please begin by welcoming the patient and asking one clear, focused clarifying question.
+    """.trimIndent().replace("\n", " ")
+            else -> ""
+        }
 
 
-            } else {
-                // Handle error (e.g., show a Toast message)
-                println("Error fetching API URL: $error")
+
+        // Add the hardcoded message as the first item in the context list
+        contextList.add(ChatMessage(baseContext, true))
+        if (known == "0"){
+
+            val welcomeMsg = "Hi there! I am so glad you are here today! Can you tell me what brought you in?"
+            chatAdapter.addMessage(ChatMessage(welcomeMsg, false))
+            addBotMessage(welcomeMsg)
+            timestamp = getCurrentTimestamp()
+            allChatList.add(ChatMessage(welcomeMsg, false, timestamp))
+
+            geturl { fetchedUrl ->
+                if (fetchedUrl != null) {
+                    apiUrl = fetchedUrl
+
+                    Log.e("ChatActivity", "API URL: $fetchedUrl")
+
+
+                        //addUserMessage(scannedResultText)
+                        //sendMessageToApi(fetchedUrl)
+
+
+                    //Toast.makeText(this, "from home", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to fetch URL", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        else if (known == "1") {
+            geturl { fetchedUrl ->
+                if (fetchedUrl != null) {
+                    apiUrl = fetchedUrl
+                    scannedResultText = intent.getStringExtra("scanned_result") ?: ""
+
+                    Log.e("ChatActivity", "Scanned Result: $scannedResultText")
+                    Log.e("ChatActivity", "API URL: $fetchedUrl")
+
+                    if (scannedResultText.isNotEmpty()) {
+                        addUserMessage(scannedResultText)
+                        sendMessageToApi(fetchedUrl)
+                    }
+
+                    //Toast.makeText(this, "from scan", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to fetch URL", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
-        sendButton.setOnClickListener {
+            sendButton.setOnClickListener {
             val userQuery = query.text.toString().trim()
-            if (userQuery.isNotEmpty() && apiUrl != null) {
 
-                chatAdapter.addMessage(ChatMessage(userQuery, true))
-                sendMessageToApi(userQuery, apiUrl!!)
+            geturl { fetchedUrl ->
+                if (fetchedUrl != null) {
+                    apiUrl = fetchedUrl
+                    if (userQuery.isNotEmpty() && apiUrl != null) {
 
-                query.text.clear()
+                        // Add user message to the context list and adapter
+                        addUserMessage(userQuery)
+                        chatAdapter.addMessage(ChatMessage(userQuery, true))
+                        // Send the message to the API
+                        sendMessageToApi(apiUrl!!)
+                        timestamp = getCurrentTimestamp()
+                        allChatList.add(ChatMessage(userQuery, true, timestamp))
 
+                        query.text.clear()
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun addUserMessage(message: String) {
+        // Add user message to the context list and adapter
+        val userMessage = ChatMessage(message, true)
+        if (contextList.size >= 30) {
+            // Remove the second item (index 1) if the list is full
+            contextList.removeAt(1)
+        }
+        contextList.add(userMessage)
+    }
+
+    private fun addBotMessage(message: String) {
+        // Add bot message to the context list and adapter
+        val botMessage = ChatMessage(message, false)
+        if (contextList.size >= 30) {
+            // Remove the second item (index 1) if the list is full
+            contextList.removeAt(1)
+        }
+        contextList.add(botMessage)
+    }
+
+    private fun flattenContextList(): String {
+        return buildString {
+            for ((index, message) in contextList.withIndex()) {
+                if (index == 0) {
+                    append(message.message)
+                } else {
+                    append("role:")
+                    append(if (message.isUser) "user" else "bot")
+                    append("\n")
+                    append(if (message.isUser) "query:" else "response:")
+                    append(message.message)
+                }
+                append("\n")
+            }
+        }.trim()
+    }
+
+    private fun geturl(callback: (String?) -> Unit) {
+        val firebaseService = FirebaseReadService()
+        firebaseService.fetchApiUrl { url, error ->
+            if (url != null) {
+                val fullUrl = "$url/query"
+                Log.e("ChatActivity", "API URL: $fullUrl")
+                callback(fullUrl)
+            } else {
+                println("Error fetching API URL: $error")
+                callback(null)
             }
         }
     }
 
-    private fun sendMessageToApi(prompt: String, apiUrl: String) {
+    private fun sendMessageToApi(apiUrl: String) {
         val client = OkHttpClient.Builder()
-            .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS) // Increase connection timeout
-            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS) // Increase read timeout
-            .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS) // Increase write timeout
+            .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .build()
 
+        // Flatten the context list into the required string format
+        val flattenedContext = flattenContextList()
+
         val json = JSONObject().apply {
-            put("prompt", prompt)
+            put("prompt", flattenedContext)
         }
+
+        // chatAdapter.addMessage(ChatMessage(flattenedContext, true))
+
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
 
@@ -106,6 +248,9 @@ class ChatActivity : AppCompatActivity() {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e("ChatActivity", "API Request Failed", e)
                 runOnUiThread {
+                    addBotMessage("Error: Connection timeout. Please try again.")
+                    timestamp = getCurrentTimestamp()
+                    allChatList.add(ChatMessage("Error: Connection timeout. Please try again.", false, timestamp))
                     chatAdapter.addMessage(ChatMessage("Error: Connection timeout. Please try again.", false))
                 }
             }
@@ -117,6 +262,8 @@ class ChatActivity : AppCompatActivity() {
                     if (!response.isSuccessful) {
                         Log.e("ChatActivity", "Unexpected API response: $responseBody")
                         runOnUiThread {
+                            addBotMessage("Error: Unexpected response")
+                            allChatList.add(ChatMessage("Error: Unexpected response", false))
                             chatAdapter.addMessage(ChatMessage("Error: Unexpected response", false))
                         }
                         return
@@ -130,12 +277,101 @@ class ChatActivity : AppCompatActivity() {
                     }
 
                     runOnUiThread {
+                        addBotMessage(botReply)
                         chatAdapter.addMessage(ChatMessage(botReply, false))
+                        timestamp = getCurrentTimestamp()
+                        allChatList.add(ChatMessage(botReply, false, timestamp))
                     }
                 }
             }
         })
     }
 
+    fun getCurrentTimestamp(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault())
+        return dateFormat.format(Date())
+    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        uploadAllMessagesToDatabase()  // Upload all messages to database
+    }
+
+    override fun onPause() {
+        super.onPause()
+        uploadAllMessagesToDatabase()  // Upload all messages to database
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        uploadAllMessagesToDatabase()  // Upload all messages to database
+    }
+
+    private fun uploadAllMessagesToDatabase() {
+
+        if (isMessagesUploaded) {
+            return
+        }
+
+        val firebaseReadService = FirebaseReadService()
+        val firebaseWriteService = FirebaseWriteService()
+
+        val uid = firebaseReadService.getCurrentUserUid()
+        if (uid == null) {
+            Toast.makeText(this, "Failed to get user id", Toast.LENGTH_SHORT).show()
+            return
+        } else {
+            val timestamp = getCurrentTimestamp()
+
+            if((userType == "Patients" || userType == "Doctors") && userType != null && allChatList.isNotEmpty()){
+
+
+                firebaseWriteService.uploadChatMessages(
+                    timestamp,
+                    uid,
+                    userType!!,
+                    allChatList
+                ) { success ->
+                    if (success) {
+                        Log.d("ChatActivity", "All messages uploaded successfully")
+                    } else {
+                        Log.e("ChatActivity", "Error uploading messages")
+                    }
+                }
+            }
+            else{
+                Log.e("ChatActivity", "User type not recognized")
+            }
+        }
+
+        isMessagesUploaded = true
+    }
+
+
+    // ----------------- Fetch User Data -----------------
+    private fun fetchUserData() {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            val uid = currentUser.uid
+            val firebaseReadService = FirebaseReadService()
+
+            firebaseReadService.fetchCurrentUser(uid) { user, error ->
+                if (user != null) {
+                    currentUserData = user
+                    userType = if (user is User) "Patients" else "Doctors"
+
+                } else {
+                    if (error != null) {
+                        Log.e("ScanResultsActivity", "Error fetching user: $error")
+                    } else {
+                        Log.e("ScanResultsActivity", "Unknown error occurred while fetching user.")
+                    }
+                }
+            }
+        } else {
+            Log.e("ScanResultsActivity", "No current user")
+        }
+    }
 }

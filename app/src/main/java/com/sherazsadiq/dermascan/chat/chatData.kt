@@ -7,6 +7,6 @@ import java.util.Date
 data class ChatMessage(
     val message: String,
     val isUser: Boolean,
-    val timestamp: Date = Date()
+    val timestamp: String = "",
 
 )

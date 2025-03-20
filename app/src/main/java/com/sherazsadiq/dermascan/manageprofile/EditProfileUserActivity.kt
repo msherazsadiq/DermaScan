@@ -28,7 +28,9 @@ import com.sherazsadiq.dermascan.setStatusBarColor
 import com.sherazsadiq.dermascan.firebase.FirebaseManager
 import com.sherazsadiq.dermascan.firebase.FirebaseWriteService
 import com.sherazsadiq.dermascan.firebase.User
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 import kotlin.toString
 
 class EditProfileUserActivity : AppCompatActivity() {
@@ -91,6 +93,21 @@ class EditProfileUserActivity : AppCompatActivity() {
             // Check if required fields are filled
             if (dob == "Select Date of Birth" || gender == "Select" || address.isEmpty() || phoneNo.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Check if DOB is less than the current date
+            val dobFormat = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
+            val dobDate = dobFormat.parse(dob)
+            val currentDate = Calendar.getInstance().time
+
+            if (dobDate != null && dobDate.after(currentDate)) {
+                Toast.makeText(this, "Please enter a valid date of birth", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if(phoneNo.length != 11){
+                Toast.makeText(this, "Please enter a valid phone number", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 

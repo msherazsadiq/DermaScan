@@ -117,4 +117,15 @@ class FirebaseWriteService {
     }
 
 
+    // ------------------- Upload Doctor Location -------------------
+    fun updateDoctorLocation(userId: String, locData: DocLocation, callback: (Boolean) -> Unit) {
+        val userRef = database.getReference("Users").child("Doctors").child(userId).child("UserInfo").child("Location")
+        userRef.setValue(locData)
+            .addOnSuccessListener {
+                callback(true)
+            }
+            .addOnFailureListener {
+                callback(false)
+            }
+    }
 }

@@ -25,5 +25,14 @@ class Doctor(
 
 ) : Serializable
 
+class DocLocation(
+    var LocName: String = "",
+    var LocAddress: String = "",
+    var LocPhone: String = "",
+    var LocWebsite: String = "",
+    var LocURL: String = "",
+    var LocComplete: Boolean = false
+) : Serializable
 
-data class Schedule(val day: String, var startTime: String, var endTime: String)
+
+// class Schedule(val day: String, var startTime: String, var endTime: String)

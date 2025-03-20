@@ -37,4 +37,5 @@
     <string name="LLMModel">http:// </string>
     <string name="title_activity_maps">MapsActivity</string>
 
+    <string name="google_maps_key">AIzaSyBj9dLpEivWZAK1PeE8CSh7wnqepunwxuQ</string>
 </resources>

@@ -51,7 +51,6 @@ class EditProfileDoctorActivity : AppCompatActivity() {
 
         val dateOfBirthTextView = findViewById<TextView>(R.id.dateOfBirthTextView)
         val genderSpinner = findViewById<Spinner>(R.id.genderSpinner)
-        val addressEditText = findViewById<EditText>(R.id.addressEditText)
         val phoneEditText = findViewById<EditText>(R.id.phoneEditText)
         val experienceEditText = findViewById<EditText>(R.id.ExperienceEditText)
         val specializationEditText = findViewById<EditText>(R.id.specializationEditText)
@@ -87,14 +86,13 @@ class EditProfileDoctorActivity : AppCompatActivity() {
         saveBtn.setOnClickListener {
             val dob = dateOfBirthTextView.text.toString()
             val gender = genderSpinner.selectedItem.toString()
-            val address = addressEditText.text.toString()
             val phoneNo = phoneEditText.text.toString()
             val experience = experienceEditText.text.toString()
             val specialization = specializationEditText.text.toString()
 
 
             // Check if required fields are filled
-            if (dob == "Select Date of Birth" || gender == "Select" || address.isEmpty() || phoneNo.isEmpty() || experience.isEmpty() || specialization.isEmpty()) {
+            if (dob == "Select Date of Birth" || gender == "Select" || phoneNo.isEmpty() || experience.isEmpty() || specialization.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -106,7 +104,7 @@ class EditProfileDoctorActivity : AppCompatActivity() {
             progressDialog.show()
 
             // Update user data first
-            updateUserData(dob, gender, address, phoneNo, experience, specialization) { userDataUpdated ->
+            updateUserData(dob, gender, phoneNo, experience, specialization) { userDataUpdated ->
                 progressDialog.dismiss()  // Dismiss the progress dialog after saving data
 
                 if (userDataUpdated) {
@@ -159,11 +157,10 @@ class EditProfileDoctorActivity : AppCompatActivity() {
     }
 
 
-    private fun updateUserData(dob: String, gender: String, address: String, phoneNo: String, experience: String, specialization: String, callback: (Boolean) -> Unit) {
+    private fun updateUserData(dob: String, gender: String, phoneNo: String, experience: String, specialization: String, callback: (Boolean) -> Unit) {
         val userData = mapOf(
             "dob" to dob,
             "gender" to gender,
-            "address" to address,
             "phone" to phoneNo,
             "experience" to experience,
             "specialization" to specialization,
@@ -224,7 +221,6 @@ class EditProfileDoctorActivity : AppCompatActivity() {
         val profileImageIcon = findViewById<ImageView>(R.id.profile_image_icon)
         val dateOfBirthTextView = findViewById<TextView>(R.id.dateOfBirthTextView)
         val genderSpinner = findViewById<Spinner>(R.id.genderSpinner)
-        val addressEditText = findViewById<EditText>(R.id.addressEditText)
         val phoneEditText = findViewById<EditText>(R.id.phoneEditText)
         val experienceEditText = findViewById<EditText>(R.id.ExperienceEditText)
         val specializationEditText = findViewById<EditText>(R.id.specializationEditText)
@@ -266,11 +262,6 @@ class EditProfileDoctorActivity : AppCompatActivity() {
         }
 
 
-
-        // Update Address and Phone Number
-        if (!user.Address.isNullOrEmpty()) {
-            addressEditText.setText(user.Address)
-        }
         if (!user.Phone.isNullOrEmpty()) {
             phoneEditText.setText(user.Phone)
         }

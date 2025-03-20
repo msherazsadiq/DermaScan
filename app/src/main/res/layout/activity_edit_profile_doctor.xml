@@ -180,30 +180,6 @@
                     android:textSize="15sp" />
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/alike"
-                    android:layout_marginTop="20dp"
-                    android:text="Hospital Address"
-                    android:textColor="@color/DarkBlue"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/addressEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_input_box"
-                    android:fontFamily="@font/alike"
-                    android:hint="Enter Hospital Address"
-                    android:inputType="textPostalAddress"
-                    android:singleLine="true"
-                    android:textColor="@color/DarkBlue"
-                    android:textColorHint="@color/DarkBlue"
-                    android:textCursorDrawable="@drawable/cursor_input"
-                    android:textSize="15sp" />
-
 
                 <TextView
                     android:layout_width="match_parent"

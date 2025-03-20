@@ -1,6 +1,7 @@
 package com.sherazsadiq.dermascan.firebase
 
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -189,8 +190,9 @@ class FirebaseReadService {
                     // Access the 'approved' attribute under 'UserInfo'
                     val approved = doctorSnapshot.child("UserInfo/approved").getValue(Boolean::class.java)
                     val isProfileComplete = doctorSnapshot.child("UserInfo/profileComplete").getValue(Boolean::class.java)
+                    val isLocationComplete = doctorSnapshot.child("UserInfo/Location/locComplete").getValue(Boolean::class.java)
 
-                    if (approved == true && isProfileComplete == true) {  // Add to list if 'approved' is true
+                    if (approved == true && isProfileComplete == true && isLocationComplete == true) {  // Add to list if 'approved' is true
                         val doctor = doctorSnapshot.child("UserInfo").getValue(Doctor::class.java)
                         if (doctor != null) {
                             unapprovedList.add(doctor)
@@ -263,6 +265,28 @@ class FirebaseReadService {
                 callback(null, error.message)
             }
         })
+    }
+
+    // ------------------- Fetch Doctor Location -------------------
+    fun fetchDoctorLocation(userId: String, callback: (DocLocation?) -> Unit) {
+        val userRef = database.getReference("Users").child("Doctors").child(userId).child("UserInfo").child("Location")
+
+        userRef.get()
+            .addOnSuccessListener { snapshot ->
+                val location = snapshot.getValue(DocLocation::class.java)
+                callback(location)
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
+
+
+    fun getCurrentUserUid(): String? {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        return currentUser?.uid
     }
 
 }

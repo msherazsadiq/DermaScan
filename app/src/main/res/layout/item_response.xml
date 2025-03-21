@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:padding="10dp"
+            android:padding="15dp"
             android:background="@drawable/bg_response"
             android:text="😢 I am sorry but as an AI language model, I cannot help you with that question. If you need support please reach out to your healthcare provider they will be able to assist you better than I can. You are always free to end our chat at any time if it becomes too distressing, take care and have a lovely day!"
             android:textColor="@color/DarkBlue" />

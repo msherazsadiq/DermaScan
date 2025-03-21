@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:padding="10dp"
+            android:padding="15dp"
             android:background="@drawable/bg_query"
             android:text="I have Rashes on my Face"
             android:textColor="@color/DarkBlue" />

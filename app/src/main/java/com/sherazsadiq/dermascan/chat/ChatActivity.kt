@@ -193,10 +193,8 @@ class ChatActivity : AppCompatActivity() {
                 if (index == 0) {
                     append(message.message)
                 } else {
-                    append("role:")
-                    append(if (message.isUser) "user" else "bot")
+                    append(if (message.isUser) "user: " else "bot: ")
                     append("\n")
-                    append(if (message.isUser) "query:" else "response:")
                     append(message.message)
                 }
                 append("\n")

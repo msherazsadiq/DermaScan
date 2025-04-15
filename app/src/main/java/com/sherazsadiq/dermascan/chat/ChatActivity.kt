@@ -15,21 +15,29 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.sherazsadiq.dermascan.R
 import com.sherazsadiq.dermascan.firebase.FirebaseReadService
 import com.sherazsadiq.dermascan.firebase.FirebaseWriteService
 import com.sherazsadiq.dermascan.firebase.User
 import com.sherazsadiq.dermascan.setStatusBarColor
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
+@SuppressLint("MissingInflatedId")
 class ChatActivity : AppCompatActivity() {
 
     private var currentUserData: Any? = null
@@ -49,11 +57,12 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var backButton: LinearLayout
     private lateinit var timestamp: String
 
-    // Mutable list to store chat context with a fixed size of 30
+    // Mutable lists to store chat context and complete chat list
     private var contextList = mutableListOf<ChatMessage>()
     private var allChatList = mutableListOf<ChatMessage>()
 
-    @SuppressLint("MissingInflatedId")
+    private lateinit var threadKey: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -82,23 +91,24 @@ class ChatActivity : AppCompatActivity() {
         chatMessagesRecycler.layoutManager = LinearLayoutManager(this)
         chatMessagesRecycler.adapter = chatAdapter
 
-
-        // Initialize the context list with the hardcoded message
+        // Initialize the context list with a hardcoded base context message
         known = intent.getStringExtra("known") ?: ""
         val baseContext = when (known) {
             "0" -> """
-                Below is a conversation between a patient and a medical assistant named Dermascan. Dermascan's role is to gather detailed information about the patient's symptoms and medical history solely by asking clarifying questions. Do not provide any direct analysis, advice, or treatment recommendations until sufficient context has been gathered. If during the conversation Dermascan becomes moderately confident that a skin disease might be present, simply mention that possibility and ask targeted follow-up questions to confirm the suspicion. Please begin by welcoming the patient and asking an open-ended clarifying question about their symptoms.    """.trimIndent().replace("\n", " ")
+                Below is a conversation between a patient and a medical assistant named Dermascan. Dermascan's role is to gather detailed information about the patient's symptoms and medical history solely by asking clarifying questions. Do not provide any direct analysis, advice, or treatment recommendations until sufficient context has been gathered. If during the conversation Dermascan becomes moderately confident that a skin disease might be present, simply mention that possibility and ask targeted follow-up questions to confirm the suspicion. Please begin by welcoming the patient and asking an open-ended clarifying question about their symptoms.
+            """.trimIndent().replace("\n", " ")
             "1" -> """
-                Below is a conversation between a patient and a medical assistant named Dermascan. Dermascan's role is to gather detailed information about the patient's symptoms and medical history solely by asking clarifying questions. Do not provide any direct analysis, advice, or treatment recommendations until sufficient context has been gathered. If during the conversation Dermascan becomes moderately confident that a skin disease might be present, simply mention that possibility and ask targeted follow-up questions to confirm the suspicion. Please begin by welcoming the patient and asking an open-ended clarifying question about their symptoms.    """.trimIndent().replace("\n", " ")
+                Below is a conversation between a patient and a medical assistant named Dermascan. Dermascan's role is to gather detailed information about the patient's symptoms and medical history solely by asking clarifying questions. Do not provide any direct analysis, advice, or treatment recommendations until sufficient context has been gathered. If during the conversation Dermascan becomes moderately confident that a skin disease might be present, simply mention that possibility and ask targeted follow-up questions to confirm the suspicion. Please begin by welcoming the patient and asking an open-ended clarifying question about their symptoms.
+            """.trimIndent().replace("\n", " ")
+            "3" -> """
+                Below is a conversation between a patient and a medical assistant named Dermascan. Dermascan's role is to gather detailed information about the patient's symptoms and medical history solely by asking clarifying questions. Do not provide any direct analysis, advice, or treatment recommendations until sufficient context has been gathered. If during the conversation Dermascan becomes moderately confident that a skin disease might be present, simply mention that possibility and ask targeted follow-up questions to confirm the suspicion. Please begin by welcoming the patient and asking an open-ended clarifying question about their symptoms.
+            """.trimIndent().replace("\n", " ")
             else -> ""
         }
 
-
-
-        // Add the hardcoded message as the first item in the context list
+        // Add the base context as the first item in the context list
         contextList.add(ChatMessage(baseContext, true))
-        if (known == "0"){
-
+        if (known == "0") {
             val welcomeMsg = "Hi there! I am so glad you are here today! Can you tell me what brought you in?"
             chatAdapter.addMessage(ChatMessage(welcomeMsg, false))
             addBotMessage(welcomeMsg)
@@ -108,80 +118,117 @@ class ChatActivity : AppCompatActivity() {
             geturl { fetchedUrl ->
                 if (fetchedUrl != null) {
                     apiUrl = fetchedUrl
-
                     Log.e("ChatActivity", "API URL: $fetchedUrl")
-
-
-                        //addUserMessage(scannedResultText)
-                        //sendMessageToApi(fetchedUrl)
-
-
-                    //Toast.makeText(this, "from home", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Failed to fetch URL", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-        else if (known == "1") {
+        } else if (known == "1") {
             geturl { fetchedUrl ->
                 if (fetchedUrl != null) {
                     apiUrl = fetchedUrl
                     scannedResultText = intent.getStringExtra("scanned_result") ?: ""
-
                     Log.e("ChatActivity", "Scanned Result: $scannedResultText")
                     Log.e("ChatActivity", "API URL: $fetchedUrl")
-
                     if (scannedResultText.isNotEmpty()) {
                         addUserMessage(scannedResultText)
                         sendMessageToApi(fetchedUrl)
                     }
-
-                    //Toast.makeText(this, "from scan", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Failed to fetch URL", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else if (known == "3") {
+            // Branch for loading previous chat responses for the selected thread
+            geturl { fetchedUrl ->
+                if (fetchedUrl != null) {
+                    apiUrl = fetchedUrl
+                    threadKey = intent.getStringExtra("threadKey") ?: ""
+                    val uid = FirebaseAuth.getInstance().currentUser?.uid
+                    if (uid != null && userType != null && threadKey.isNotEmpty()) {
+                        fetchPreviousChatMessagesByThread(uid, userType!!, threadKey)
+                    } else {
+                        Toast.makeText(this, "Failed to get user info or thread key", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
                     Toast.makeText(this, "Failed to fetch URL", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-            sendButton.setOnClickListener {
+        sendButton.setOnClickListener {
             val userQuery = query.text.toString().trim()
-
             geturl { fetchedUrl ->
                 if (fetchedUrl != null) {
                     apiUrl = fetchedUrl
                     if (userQuery.isNotEmpty() && apiUrl != null) {
-
-                        // Add user message to the context list and adapter
                         addUserMessage(userQuery)
                         chatAdapter.addMessage(ChatMessage(userQuery, true))
-                        // Send the message to the API
                         sendMessageToApi(apiUrl!!)
                         timestamp = getCurrentTimestamp()
                         allChatList.add(ChatMessage(userQuery, true, timestamp))
-
                         query.text.clear()
                     }
                 }
             }
         }
+    }
 
+    private fun fetchPreviousChatMessagesByThread(uid: String, userType: String, threadKey: String) {
+        val threadRef = FirebaseDatabase.getInstance().getReference("Users")
+            .child(userType)
+            .child(uid)
+            .child("Chats")
+            .child(threadKey)
+
+        Log.d("ChatActivity", "Fetching thread messages for threadKey: $threadKey")
+        threadRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val messages = mutableListOf<ChatMessage>()
+                for (msgSnapshot in snapshot.children) {
+                    val msg = msgSnapshot.getValue(ChatMessage::class.java)
+                    Log.d("ChatActivity", "Found message: $msg")
+                    if (msg != null) {
+                        messages.add(msg)
+                    }
+                }
+                Log.d("ChatActivity", "Total messages fetched: ${messages.size}")
+                runOnUiThread {
+                    if (messages.isNotEmpty()) {
+                        // Replace the adapter messages with the fetched messages.
+                        chatAdapter.setMessages(messages)
+                        // Choose the most recent 20 messages for the context list.
+                        val recentMessages = if (messages.size > 20) {
+                            messages.takeLast(20)
+                        } else {
+                            messages
+                        }
+
+                        contextList.addAll(recentMessages)
+
+
+                    } else {
+                        Toast.makeText(this@ChatActivity, "No previous messages found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ChatActivity", "Error fetching thread messages: ${error.message}")
+            }
+        })
     }
 
     private fun addUserMessage(message: String) {
-        // Add user message to the context list and adapter
         val userMessage = ChatMessage(message, true)
         if (contextList.size >= 30) {
-            // Remove the second item (index 1) if the list is full
             contextList.removeAt(1)
         }
         contextList.add(userMessage)
     }
 
     private fun addBotMessage(message: String) {
-        // Add bot message to the context list and adapter
         val botMessage = ChatMessage(message, false)
         if (contextList.size >= 30) {
-            // Remove the second item (index 1) if the list is full
             contextList.removeAt(1)
         }
         contextList.add(botMessage)
@@ -193,7 +240,7 @@ class ChatActivity : AppCompatActivity() {
                 if (index == 0) {
                     append(message.message)
                 } else {
-                    append(if (message.isUser) "user: " else "bot: ")
+                    append(if (message.user) "user: " else "bot: ")
                     append("\n")
                     append(message.message)
                 }
@@ -223,15 +270,11 @@ class ChatActivity : AppCompatActivity() {
             .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .build()
 
-        // Flatten the context list into the required string format
         val flattenedContext = flattenContextList()
 
         val json = JSONObject().apply {
             put("prompt", flattenedContext)
         }
-
-        // chatAdapter.addMessage(ChatMessage(flattenedContext, true))
-
 
         val requestBody = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
 
@@ -254,7 +297,6 @@ class ChatActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 response.use {
                     val responseBody = response.body?.string() ?: "{}"
-
                     if (!response.isSuccessful) {
                         Log.e("ChatActivity", "Unexpected API response: $responseBody")
                         runOnUiThread {
@@ -290,21 +332,20 @@ class ChatActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        uploadAllMessagesToDatabase()  // Upload all messages to database
+        uploadAllMessagesToDatabase()
     }
 
     override fun onPause() {
         super.onPause()
-        uploadAllMessagesToDatabase()  // Upload all messages to database
+        uploadAllMessagesToDatabase()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        uploadAllMessagesToDatabase()  // Upload all messages to database
+        uploadAllMessagesToDatabase()
     }
 
     private fun uploadAllMessagesToDatabase() {
-
         if (isMessagesUploaded) {
             return
         }
@@ -317,11 +358,12 @@ class ChatActivity : AppCompatActivity() {
             Toast.makeText(this, "Failed to get user id", Toast.LENGTH_SHORT).show()
             return
         } else {
-            val timestamp = getCurrentTimestamp()
+            var timestamp = getCurrentTimestamp()
+            if(known == "3"){
+                timestamp = threadKey
+            }
 
-            if((userType == "Patients" || userType == "Doctors") && userType != null && allChatList.isNotEmpty()){
-
-
+            if ((userType == "Patients" || userType == "Doctors") && userType != null && allChatList.isNotEmpty()) {
                 firebaseWriteService.uploadChatMessages(
                     timestamp,
                     uid,
@@ -334,15 +376,13 @@ class ChatActivity : AppCompatActivity() {
                         Log.e("ChatActivity", "Error uploading messages")
                     }
                 }
-            }
-            else{
+            } else {
                 Log.e("ChatActivity", "User type not recognized")
             }
         }
 
         isMessagesUploaded = true
     }
-
 
     // ----------------- Fetch User Data -----------------
     private fun fetchUserData() {
@@ -357,7 +397,6 @@ class ChatActivity : AppCompatActivity() {
                 if (user != null) {
                     currentUserData = user
                     userType = if (user is User) "Patients" else "Doctors"
-
                 } else {
                     if (error != null) {
                         Log.e("ScanResultsActivity", "Error fetching user: $error")

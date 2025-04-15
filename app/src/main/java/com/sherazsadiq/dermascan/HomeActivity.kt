@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.sherazsadiq.dermascan.chat.ChatActivity
+import com.sherazsadiq.dermascan.chat.ChatHistoryActivity
 import com.sherazsadiq.dermascan.firebase.Doctor
 import com.sherazsadiq.dermascan.firebase.FirebaseReadService
 import com.sherazsadiq.dermascan.firebase.User
@@ -174,11 +175,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         chatHistoryButton.setOnClickListener {
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("known", "1");
+            val intent = Intent(this, ChatHistoryActivity::class.java)
             startActivity(intent)
         }
-
 
 
 

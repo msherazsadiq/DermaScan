@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_marginTop="100dp"
-                android:text="Cpature Photo"
+                android:text="Capture Photo"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
         </FrameLayout>

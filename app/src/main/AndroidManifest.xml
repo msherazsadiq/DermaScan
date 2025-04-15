@@ -52,7 +52,9 @@
 
         <activity
             android:name=".chat.ChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity
             android:name=".FeedbackActivity"
             android:exported="false" />

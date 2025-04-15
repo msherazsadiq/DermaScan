@@ -1,103 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
+<androidx.core.widget.NestedScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/HalfWhite"
-    tools:context=".chat.ChatActivity">
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Fixed Back Button -->
-    <LinearLayout
-        android:id="@+id/backButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/background_button_white"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back_arrow_vector" />
-    </LinearLayout>
-
-    <!-- Fixed Title -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/konkhmer_sleokchher"
-        android:gravity="center_horizontal"
-        android:text="AI Health Assistant"
-        android:textColor="@color/DarkBlue"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Chat Messages -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/chatMessages"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/inputFrame"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
-
-
-    <!-- Input Frame -->
-    <FrameLayout
-        android:id="@+id/inputFrame"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:background="@color/HalfWhite"
+        tools:context=".chat.ChatActivity">
 
-        <EditText
-            android:id="@+id/queryEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Type..."
-            android:inputType="textMultiLine"
-            android:maxLines="5"
-            android:padding="10dp"
-            android:textColor="@color/DarkBlue"
-            android:textColorHint="@color/DarkBlue"
-            android:textSize="16sp"
-            android:background="@drawable/bg_prompt"
-            android:layout_marginEnd="50dp" />
-
-        <!-- Send Button -->
-        <FrameLayout
-            android:id="@+id/sendPrompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/background_arrow_darkblue" />
+        <!-- Fixed Back Button -->
+        <LinearLayout
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/background_button_white"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_arrow_up_right_halfwhite" />
+                android:src="@drawable/ic_back_arrow_vector" />
+        </LinearLayout>
+
+        <!-- Fixed Title -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/konkhmer_sleokchher"
+            android:gravity="center_horizontal"
+            android:text="AI Health Assistant"
+            android:textColor="@color/DarkBlue"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Chat Messages -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chatMessages"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/inputFrame"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView" />
+
+        <!-- Input Frame -->
+        <FrameLayout
+            android:id="@+id/inputFrame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <EditText
+                android:id="@+id/queryEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Type..."
+                android:inputType="textMultiLine"
+                android:maxLines="5"
+                android:padding="10dp"
+                android:textColor="@color/DarkBlue"
+                android:textColorHint="@color/DarkBlue"
+                android:textSize="16sp"
+                android:background="@drawable/bg_prompt"
+                android:layout_marginEnd="50dp" />
+
+            <!-- Send Button -->
+            <FrameLayout
+                android:id="@+id/sendPrompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/background_arrow_darkblue" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_up_right_halfwhite" />
+            </FrameLayout>
         </FrameLayout>
-    </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
